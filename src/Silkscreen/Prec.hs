@@ -39,7 +39,7 @@ import Silkscreen
 -- infixr 8 ^.
 -- @
 --
--- >>> (pretty "a" +. pretty "b") *. pretty "c" ^. (pretty "d" *. pretty "e")
+-- >>> runPrec Bottom (('pretty' "a" +. 'pretty' "b") *. 'pretty' "c" ^. ('pretty' "d" *. 'pretty' "e"))
 -- (a + b) * c ^ (d * e)
 class Printer p => PrecPrinter p where
   -- | The type used to represent precedence levels. This is defined as an associated type so that consumers can use e.g. symbolic representations of their DSL’s precedence levels instead of e.g. unsemantic 'Int's.
