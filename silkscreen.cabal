@@ -42,6 +42,7 @@ library
     Silkscreen
     Silkscreen.Precedence
     Silkscreen.Printer.Prec
+    Silkscreen.Printer.Rainbow
     Silkscreen.Rainbow
   build-depends:
     , base ^>= 4.14
