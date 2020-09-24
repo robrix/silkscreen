@@ -5,6 +5,7 @@ module Silkscreen.Prec
   PrecPrinter(..)
 , setPrec
 , prec
+, assoc
 , nonAssoc
 , infix_
 , infixl_
@@ -58,6 +59,9 @@ setPrec = localPrec . const
 prec :: (PrecPrinter p, Ord (Level p)) => Level p -> p -> p
 prec l d = askingPrec $ \ l' -> setPrec l (parensIf (l' > l) d)
 
+
+assoc :: (PrecPrinter p, Ord (Level p)) => Level p -> (p -> p -> p) -> (p -> p -> p)
+assoc pout op l r = prec pout $ l `op` r
 
 nonAssoc :: (PrecPrinter p, Ord (Level p)) => Level p -> Level p -> (p -> p -> p) -> (p -> p -> p)
 nonAssoc pout pin op l r = prec pout $ prec pin l `op` prec pin r
