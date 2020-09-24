@@ -8,6 +8,8 @@ module Silkscreen
   -- * Symbols
 , lparen
 , rparen
+, lbracket
+, rbracket
 ) where
 
 import qualified Prettyprinter as P
@@ -61,6 +63,10 @@ surround x l r = enclose l r x
 lparen, rparen :: Printer p => p
 lparen = pretty '('
 rparen = pretty ')'
+
+lbracket, rbracket :: Printer p => p
+lbracket = pretty '['
+rbracket = pretty ']'
 
 
 instance Printer (P.Doc ann) where
