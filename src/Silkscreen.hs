@@ -32,6 +32,10 @@ class Monoid p => Printer p where
   fromDoc :: P.Doc (Ann p) -> p
 
 
+  -- | Try to unwrap the argument, if it will fit.
+  group :: p -> p
+
+
   -- | Parenthesize the argument.
   --
   -- Overloadable to support e.g. rainbow parentheses.
@@ -110,6 +114,8 @@ instance Printer (P.Doc ann) where
 
   fromDoc = id
 
+  group = P.group
+
   parens = P.parens
   brackets = P.brackets
   braces = P.braces
@@ -119,6 +125,8 @@ instance Printer b => Printer (a -> b) where
   type Ann (a -> b) = Ann b
 
   fromDoc = pure . fromDoc
+
+  group = fmap group
 
   parens = fmap parens
   brackets = fmap brackets
