@@ -10,6 +10,8 @@ module Silkscreen
 , rparen
 , lbracket
 , rbracket
+, lbrace
+, rbrace
 ) where
 
 import qualified Prettyprinter as P
@@ -67,6 +69,10 @@ rparen = pretty ')'
 lbracket, rbracket :: Printer p => p
 lbracket = pretty '['
 rbracket = pretty ']'
+
+lbrace, rbrace :: Printer p => p
+lbrace = pretty '['
+rbrace = pretty ']'
 
 
 instance Printer (P.Doc ann) where
