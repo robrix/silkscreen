@@ -1,2 +1,7 @@
 module Silkscreen.Rainbow
-() where
+( RainbowPrinter
+) where
+
+import Silkscreen
+
+class Printer p => RainbowPrinter p where
