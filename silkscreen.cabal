@@ -40,6 +40,7 @@ library
   import: common
   exposed-modules:
     MyLib
+    Silkscreen
   build-depends:
     , base ^>= 4.14
   hs-source-dirs: src
