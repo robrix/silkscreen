@@ -10,6 +10,8 @@ module Silkscreen.Prec
 , leftAssoc
 , rightAssoc
 , infix_
+  -- * Prec
+, Prec(..)
 ) where
 
 import Silkscreen
@@ -86,3 +88,8 @@ instance PrecPrinter b => PrecPrinter (a -> b) where
 
   askingPrec f = askingPrec . flip f
   localPrec f p = localPrec f . p
+
+
+-- Prec
+
+newtype Prec level a = Prec (level -> a)
