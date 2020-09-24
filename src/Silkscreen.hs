@@ -19,6 +19,8 @@ module Silkscreen
 , surround
 , (<+>)
 , (</>)
+  -- ** Conditional combinators
+, parensIf
   -- * Symbols
 , space
 , line
@@ -154,6 +156,11 @@ infixr 6 <+>
 (</>) = surround line
 
 infixr 6 </>
+
+
+parensIf :: Printer p => Bool -> p -> p
+parensIf True = parens
+parensIf _    = id
 
 
 -- Symbols
