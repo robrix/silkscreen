@@ -13,6 +13,7 @@ import Control.Applicative (liftA2)
 import Silkscreen
 
 class Printer p => NestingPrinter p where
+  -- | Make a printer informed by the current nesting level.
   askingNesting :: (Int -> p) -> p
 
   -- | Increment the nesting level of a printer.
