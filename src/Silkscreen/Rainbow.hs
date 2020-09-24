@@ -40,8 +40,8 @@ type Handler = forall p . Printer p => Int -> p -> p
 newtype Rainbow ann a = Rainbow (Handler -> Int -> a)
   deriving (Monoid, Semigroup)
 
-applyHandler :: Printer a => Rainbow ann a -> Rainbow ann a
-applyHandler a = Rainbow $ \ h l -> h l (runRainbow h l a)
+applyNesting :: Printer a => Rainbow ann a -> Rainbow ann a
+applyNesting a = Rainbow $ \ h l -> h l (runRainbow h l a)
 
 instance Functor (Rainbow ann) where
   fmap = liftM
@@ -68,9 +68,9 @@ instance (Printer a, Ann a ~ ann) => Printer (Rainbow ann a) where
   align = fmap align
   nest i = fmap (nest i)
 
-  parens   = encloseNesting (applyHandler lparen)   (applyHandler rparen)
-  brackets = encloseNesting (applyHandler lbracket) (applyHandler rbracket)
-  braces   = encloseNesting (applyHandler lbrace)   (applyHandler rbrace)
+  parens   = encloseNesting (applyNesting lparen)   (applyNesting rparen)
+  brackets = encloseNesting (applyNesting lbracket) (applyNesting rbracket)
+  braces   = encloseNesting (applyNesting lbrace)   (applyNesting rbrace)
 
 instance (Printer a, Ann a ~ ann) => NestingPrinter (Rainbow ann a) where
   askingNesting f = Rainbow (\ as -> runRainbow as <*> f)
