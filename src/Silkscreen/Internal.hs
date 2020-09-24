@@ -1,2 +1,0 @@
-module Silkscreen.Internal
-() where

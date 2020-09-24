@@ -42,8 +42,6 @@ library
     Silkscreen
     Silkscreen.Prec
     Silkscreen.Rainbow
-  other-modules:
-    Silkscreen.Internal
   build-depends:
     , base ^>= 4.14
     , prettyprinter ^>= 1.7
