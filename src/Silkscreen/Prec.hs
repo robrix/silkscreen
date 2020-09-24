@@ -49,5 +49,6 @@ class Printer p => PrecPrinter p where
 setPrec :: PrecPrinter p => Level p -> p -> p
 setPrec = localPrec . const
 
+-- | Set a constant precedence, parenthesizing in higher-precedence contexts.
 prec :: (PrecPrinter p, Ord (Level p)) => Level p -> p -> p
 prec l d = askingPrec $ \ l' -> setPrec l (parensIf (l' > l) d)
