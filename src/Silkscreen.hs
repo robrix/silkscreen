@@ -14,6 +14,7 @@ module Silkscreen
 , sep
 , enclose
 , encloseSep
+, tupled
 , surround
 , (<+>)
 , (</>)
@@ -111,6 +112,15 @@ enclose l r x = l <> x <> r
 
 encloseSep :: Printer p => p -> p -> p -> [p] -> p
 encloseSep l r s ps = enclose l r (group (concatWith (surround (line' <> s)) ps))
+
+tupled :: Printer p => [p] -> p
+tupled
+  = group
+  . parens
+  . encloseSep
+    (flatAlt space mempty)
+    (flatAlt space mempty)
+    (comma <> space)
 
 
 -- | @'surround' x l r@ wraps @x@ in @l@ and @r@.
