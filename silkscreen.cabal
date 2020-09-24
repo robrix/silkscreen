@@ -46,3 +46,8 @@ library
     , base ^>= 4.14
     , prettyprinter ^>= 1.7
   hs-source-dirs: src
+
+
+source-repository head
+  type:     git
+  location: https://github.com/robrix/silkscreen
