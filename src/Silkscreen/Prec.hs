@@ -79,7 +79,7 @@ leftAssoc pl pr = infix_ pl id (prec pr)
 
 -- | Make a right-associative infix combinator at the given levels for the operator itself and its left operand.
 rightAssoc :: (PrecPrinter p, Ord (Level p)) => Level p -> Level p -> (p -> p -> p) -> (p -> p -> p)
-rightAssoc pl pr = infix_ pr (prec pl) id
+rightAssoc pr pl = infix_ pr (prec pl) id
 
 -- | Make an infix combinator at the given level for the operator itself, applying functions to either operand.
 infix_ :: (PrecPrinter p, Ord (Level p)) => Level p -> (p -> p) -> (p -> p) -> (p -> p -> p) -> (p -> p -> p)
