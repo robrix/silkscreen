@@ -20,4 +20,4 @@ runRainbow :: Int -> Rainbow a -> a
 runRainbow n (Rainbow run) = run n
 
 newtype Rainbow a = Rainbow (Int -> a)
-  deriving (Functor, Monoid, Semigroup)
+  deriving (Applicative, Functor, Monoid, Semigroup)
