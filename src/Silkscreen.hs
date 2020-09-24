@@ -48,6 +48,10 @@ class Monoid p => Printer p where
   -- | Lift a 'P.Doc' to a 'Printer'.
   fromDoc :: P.Doc (Ann p) -> p
 
+  mapDoc :: (P.Doc (Ann p) -> P.Doc (Ann p)) -> (p -> p)
+
+  mapDoc2 :: (P.Doc (Ann p) -> P.Doc (Ann p) -> P.Doc (Ann p)) -> (p -> p -> p)
+
   -- | Annotate a 'Printer' with an @'Ann' p@.
   annotate :: Ann p -> p -> p
 
@@ -198,6 +202,8 @@ instance Printer (P.Doc ann) where
   type Ann (P.Doc ann) = ann
 
   fromDoc = id
+  mapDoc = id
+  mapDoc2 = id
   annotate = P.annotate
 
   group = P.group
@@ -215,6 +221,8 @@ instance (Printer a, Printer b, Ann a ~ Ann b) => Printer (a, b) where
   type Ann (a, b) = Ann b
 
   fromDoc d = (fromDoc d, fromDoc d)
+  mapDoc f (a, b) = (mapDoc f a, mapDoc f b)
+  mapDoc2 f (a1, b1) (a2, b2) = (mapDoc2 f a1 a2, mapDoc2 f b1 b2)
   annotate ann (a, b) = (annotate ann a, annotate ann b)
 
   group (a, b) = (group a, group b)
@@ -232,6 +240,8 @@ instance Printer b => Printer (a -> b) where
   type Ann (a -> b) = Ann b
 
   fromDoc = pure . fromDoc
+  mapDoc = fmap . mapDoc
+  mapDoc2 = liftA2 . mapDoc2
   annotate = fmap . annotate
 
   group = fmap group

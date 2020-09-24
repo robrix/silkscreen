@@ -47,6 +47,8 @@ instance Printer a => Printer (Rainbow a) where
   type Ann (Rainbow a) = Ann a
 
   fromDoc = liftR0 . fromDoc
+  mapDoc = liftR1 . mapDoc
+  mapDoc2 = liftR2 . mapDoc2
   annotate = liftR1 . annotate
 
   group = liftR1 group

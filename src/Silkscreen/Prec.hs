@@ -108,6 +108,8 @@ instance (Bounded level, Printer a) => Printer (Prec level a) where
   type Ann (Prec level a) = Ann a
 
   fromDoc = pure . fromDoc
+  mapDoc = fmap . mapDoc
+  mapDoc2 = liftA2 . mapDoc2
   annotate = fmap . annotate
 
   group = fmap group
