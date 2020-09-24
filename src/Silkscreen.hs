@@ -125,6 +125,19 @@ instance Printer (P.Doc ann) where
   braces = P.braces
 
 
+instance (Printer a, Printer b, Ann a ~ Ann b) => Printer (a, b) where
+  type Ann (a, b) = Ann b
+
+  fromDoc d = (fromDoc d, fromDoc d)
+  annotate ann (a, b) = (annotate ann a, annotate ann b)
+
+  group (a, b) = (group a, group b)
+
+  parens (a, b) = (parens a, parens b)
+  brackets (a, b) = (brackets a, brackets b)
+  braces (a, b) = (braces a, braces b)
+
+
 instance Printer b => Printer (a -> b) where
   type Ann (a -> b) = Ann b
 
