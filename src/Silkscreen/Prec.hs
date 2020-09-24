@@ -76,6 +76,7 @@ leftAssoc pl pr = infix_ pl id (prec pr)
 rightAssoc :: (PrecPrinter p, Ord (Level p)) => Level p -> Level p -> (p -> p -> p) -> (p -> p -> p)
 rightAssoc pl pr = infix_ pr (prec pl) id
 
+-- | Make an infix combinator at the given level for the operator itself, applying functions to either operand.
 infix_ :: (PrecPrinter p, Ord (Level p)) => Level p -> (p -> p) -> (p -> p) -> (p -> p -> p) -> (p -> p -> p)
 infix_ p fl fr op l r = prec p $ fl l `op` fr r
 
