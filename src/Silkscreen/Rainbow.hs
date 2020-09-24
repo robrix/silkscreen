@@ -4,7 +4,7 @@ module Silkscreen.Rainbow
 ( -- * Printing with nesting levels
   RainbowPrinter(..)
   -- * Rainbow parentheses
-, runRainbow
+, rainbow
 , Rainbow(..)
 ) where
 
@@ -18,10 +18,10 @@ class Printer p => RainbowPrinter p where
   incrNesting :: p -> p
 
 
-runRainbow :: Int -> Rainbow a -> a
-runRainbow n (Rainbow run) = run n
+rainbow :: Int -> Rainbow a -> a
+rainbow n (Rainbow run) = run n
 
-newtype Rainbow a = Rainbow (Int -> a)
+newtype Rainbow a = Rainbow { runRainbow :: Int -> a }
   deriving (Applicative, Functor, Monad, Monoid, Semigroup)
 
 instance Printer a => Printer (Rainbow a) where
