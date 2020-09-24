@@ -13,6 +13,7 @@ module Silkscreen
 , vsep
 , sep
 , enclose
+, encloseSep
 , surround
 , (<+>)
 , (</>)
@@ -106,6 +107,10 @@ sep = group . vsep
 -- | @'enclose' l r x@ wraps @x@ in @l@ and @r@.
 enclose :: Printer p => p -> p -> p -> p
 enclose l r x = l <> x <> r
+
+encloseSep :: Printer p => p -> p -> p -> [p] -> p
+encloseSep l r s ps = enclose l r (group (concatWith (surround (line' <> s)) ps))
+
 
 -- | @'surround' x l r@ wraps @x@ in @l@ and @r@.
 --
