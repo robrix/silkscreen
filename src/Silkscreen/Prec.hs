@@ -60,15 +60,19 @@ prec :: (PrecPrinter p, Ord (Level p)) => Level p -> p -> p
 prec l d = askingPrec $ \ l' -> setPrec l (parensIf (l' > l) d)
 
 
+-- | Make an associative infix combinator at the given level.
 assoc :: (PrecPrinter p, Ord (Level p)) => Level p -> (p -> p -> p) -> (p -> p -> p)
 assoc pout = infix_ pout id id
 
+-- | Make a non-associative infix combinator at the given levels for the operator itself and its operands.
 nonAssoc :: (PrecPrinter p, Ord (Level p)) => Level p -> Level p -> (p -> p -> p) -> (p -> p -> p)
 nonAssoc pout pin = infix_ pout (prec pin) (prec pin)
 
+-- | Make a left-associative infix combinator at the given levels for the operator itself and its right operand.
 leftAssoc :: (PrecPrinter p, Ord (Level p)) => Level p -> Level p -> (p -> p -> p) -> (p -> p -> p)
 leftAssoc pl pr = infix_ pl id (prec pr)
 
+-- | Make a right-associative infix combinator at the given levels for the operator itself and its left operand.
 rightAssoc :: (PrecPrinter p, Ord (Level p)) => Level p -> Level p -> (p -> p -> p) -> (p -> p -> p)
 rightAssoc pl pr = infix_ pr (prec pl) id
 
