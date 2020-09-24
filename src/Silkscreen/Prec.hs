@@ -32,7 +32,7 @@ import Silkscreen
 --
 -- (^.) :: (PrecPrinter p, Level p ~ ArithLevel) => p -> p -> p
 -- a ^. b = 'prec' Exp $ a '<+>' 'pretty' "^" '<+>' b
--- infixl 8 ^.
+-- infixr 8 ^.
 -- @
 --
 -- >>> (pretty "a" +. pretty "b") *. pretty "c" ^. (pretty "d" *. pretty "e")
