@@ -1,6 +1,7 @@
 {-# LANGUAGE TypeFamilies #-}
 module Silkscreen.Prec
 ( PrecPrinter(..)
+, setPrec
 ) where
 
 import Silkscreen
@@ -39,3 +40,6 @@ class Printer p => PrecPrinter p where
 
   -- | Locally change the 'Level' in a printer.
   localPrec :: (Level p -> Level p) -> p -> p
+
+setPrec :: PrecPrinter p => Level p -> p -> p
+setPrec = localPrec . const
