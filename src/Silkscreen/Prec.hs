@@ -1,7 +1,8 @@
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE TypeFamilies #-}
 module Silkscreen.Prec
-( PrecPrinter(..)
+( -- * Printing with precedence
+  PrecPrinter(..)
 , setPrec
 , prec
 ) where
