@@ -1,2 +1,6 @@
 module Silkscreen.Printer.Rainbow
-() where
+( -- * Re-exports
+  module Silkscreen.Nesting
+) where
+
+import Silkscreen.Nesting
