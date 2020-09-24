@@ -40,9 +40,9 @@ instance Printer a => Printer (Rainbow a) where
   align = fmap align
   nest i = fmap (nest i)
 
-  parens   = fmap parens   . incrNesting
-  brackets = fmap brackets . incrNesting
-  braces   = fmap braces   . incrNesting
+  parens   = encloseNesting lparen rparen
+  brackets = encloseNesting lbracket rbracket
+  braces   = encloseNesting lbrace rbrace
 
 instance Printer a => RainbowPrinter (Rainbow a) where
   incrNesting p = Rainbow (runRainbow p . succ)
