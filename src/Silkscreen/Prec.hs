@@ -98,4 +98,4 @@ runPrec :: level -> Prec level a -> a
 runPrec level (Prec run) = run level
 
 newtype Prec level a = Prec (level -> a)
-  deriving (Monoid, Semigroup)
+  deriving (Functor, Monoid, Semigroup)
