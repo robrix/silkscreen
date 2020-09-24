@@ -56,6 +56,7 @@ class Monoid p => Printer p where
   -- | Lift a unary function on 'P.Doc' to a 'Printer'.
   liftDoc1 :: (P.Doc (Ann p) -> P.Doc (Ann p)) -> (p -> p)
 
+  -- | Lift a binary function on 'P.Doc' to a 'Printer'.
   liftDoc2 :: (P.Doc (Ann p) -> P.Doc (Ann p) -> P.Doc (Ann p)) -> (p -> p -> p)
 
 
