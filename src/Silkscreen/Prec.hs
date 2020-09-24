@@ -61,16 +61,16 @@ prec l d = askingPrec $ \ l' -> setPrec l (parensIf (l' > l) d)
 
 
 assoc :: (PrecPrinter p, Ord (Level p)) => Level p -> (p -> p -> p) -> (p -> p -> p)
-assoc pout op l r = prec pout $ l `op` r
+assoc pout = infix_ pout id id
 
 nonAssoc :: (PrecPrinter p, Ord (Level p)) => Level p -> Level p -> (p -> p -> p) -> (p -> p -> p)
-nonAssoc pout pin op l r = prec pout $ prec pin l `op` prec pin r
+nonAssoc pout pin = infix_ pout (prec pin) (prec pin)
 
 leftAssoc :: (PrecPrinter p, Ord (Level p)) => Level p -> Level p -> (p -> p -> p) -> (p -> p -> p)
-leftAssoc pl pr op l r = prec pl $ l `op` prec pr r
+leftAssoc pl pr = infix_ pl id (prec pr)
 
 rightAssoc :: (PrecPrinter p, Ord (Level p)) => Level p -> Level p -> (p -> p -> p) -> (p -> p -> p)
-rightAssoc pl pr op l r = prec pr $ prec pl l `op` r
+rightAssoc pl pr = infix_ pr (prec pl) id
 
 infix_ :: (PrecPrinter p, Ord (Level p)) => Level p -> (p -> p) -> (p -> p) -> (p -> p -> p) -> (p -> p -> p)
 infix_ p fl fr op l r = prec p $ fl l `op` fr r
