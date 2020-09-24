@@ -28,6 +28,7 @@ class Monoid p => Printer p where
   -- We provide this as a type family instead of defining 'Printer' over kind @Type -> Type@ in order to allow instances to constrain annotations.
   type Ann p
 
+  -- | Lift a 'P.Doc' to a 'Printer'.
   fromDoc :: P.Doc (Ann p) -> p
 
 
