@@ -3,6 +3,7 @@
 module Silkscreen.Rainbow
 ( -- * Printing with nesting levels
   RainbowPrinter(..)
+, encloseNesting
   -- * Rainbow parentheses
 , rainbow
 , Rainbow(..)
@@ -16,6 +17,9 @@ class Printer p => RainbowPrinter p where
   --
   -- This should be used inside parentheses, brackets, braces, etc., and will inform the annotation of their delimiters.
   incrNesting :: p -> p
+
+encloseNesting :: RainbowPrinter p => p -> p -> p -> p
+encloseNesting l r = enclose l r . incrNesting
 
 
 rainbow :: Rainbow a -> a
