@@ -36,7 +36,7 @@ encloseNesting l r = enclose (applyNesting l) (applyNesting r) . incrNesting
 
 
 runRainbow :: Handler -> Int -> Rainbow a -> a
-runRainbow as l (Rainbow run) = run as l
+runRainbow h l (Rainbow run) = run h l
 
 type Handler = forall p . Printer p => Int -> p -> p
 
