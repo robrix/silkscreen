@@ -5,6 +5,7 @@ module Silkscreen
   -- * Combinators
 , enclose
 , surround
+, (<+>)
   -- * Symbols
 , lparen
 , rparen
@@ -61,6 +62,11 @@ enclose l r x = l <> x <> r
 -- apple, banana
 surround :: Printer p => p -> p -> p -> p
 surround x l r = enclose l r x
+
+(<+>) :: Printer p => p -> p -> p
+(<+>) = surround space
+
+infixr 6 <+>
 
 
 -- Symbols
