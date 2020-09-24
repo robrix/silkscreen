@@ -14,6 +14,7 @@ module Silkscreen
 , lbrace
 , rbrace
 , space
+, line
 ) where
 
 import qualified Prettyprinter as P
@@ -86,6 +87,9 @@ rbrace = pretty ']'
 
 space :: Printer p => p
 space = pretty ' '
+
+line :: Printer p => p
+line = pretty '\n'
 
 
 instance Printer (P.Doc ann) where
