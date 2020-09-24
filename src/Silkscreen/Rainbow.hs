@@ -37,29 +37,29 @@ encloseNesting :: NestingPrinter p => p -> p -> p -> p
 encloseNesting l r = enclose (applyNesting l) (applyNesting r) . incrNesting
 
 
-runRainbow :: Handler -> Int -> Rainbow ann a -> a
+runRainbow :: Handler -> Int -> Rainbow a -> a
 runRainbow as l (Rainbow run) = run as l
 
 type Handler = forall p . Printer p => Int -> p -> p
 
-newtype Rainbow ann a = Rainbow (Handler -> Int -> a)
+newtype Rainbow a = Rainbow (Handler -> Int -> a)
   deriving (Monoid, Semigroup)
 
-instance Functor (Rainbow ann) where
+instance Functor Rainbow where
   fmap = liftM
 
-instance Applicative (Rainbow ann) where
+instance Applicative Rainbow where
   pure a = Rainbow $ \ _ _ -> a
   (<*>) = ap
 
-instance Monad (Rainbow ann) where
+instance Monad Rainbow where
   m >>= f = Rainbow $ \ as l -> runRainbow as l (f (runRainbow as l m))
 
-instance Show a => Show (Rainbow ann a) where
+instance Show a => Show (Rainbow a) where
   showsPrec p = showsPrec p . runRainbow (flip const) 0
 
-instance (Printer a, Ann a ~ ann) => Printer (Rainbow ann a) where
-  type Ann (Rainbow ann a) = ann
+instance Printer a => Printer (Rainbow a) where
+  type Ann (Rainbow a) = Ann a
 
   fromDoc = pure . fromDoc
   annotate = fmap . annotate
@@ -74,7 +74,7 @@ instance (Printer a, Ann a ~ ann) => Printer (Rainbow ann a) where
   brackets = encloseNesting lbracket rbracket
   braces   = encloseNesting lbrace   rbrace
 
-instance (Printer a, Ann a ~ ann) => NestingPrinter (Rainbow ann a) where
+instance Printer a => NestingPrinter (Rainbow a) where
   askingNesting f = Rainbow (\ as -> runRainbow as <*> f)
   localNesting f (Rainbow p) = Rainbow (\ as -> p as . f)
   applyNesting a = Rainbow $ \ h l -> h l (runRainbow h l a)
