@@ -38,6 +38,7 @@ class Monoid p => Printer p where
 
 -- Non-primitive combinators
 
+-- | @'enclose' l r x@ wraps @x@ in @l@ and @r@.
 enclose :: Printer p => p -> p -> p -> p
 enclose l r x = l <> x <> r
 
