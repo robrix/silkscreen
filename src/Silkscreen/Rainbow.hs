@@ -1,4 +1,5 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE TypeFamilies #-}
 module Silkscreen.Rainbow
 ( -- * Printing with nesting levels
@@ -30,24 +31,26 @@ encloseNesting :: NestingPrinter p => p -> p -> p -> p
 encloseNesting l r = enclose l r . incrNesting
 
 
-runRainbow :: [ann] -> Int -> Rainbow ann a -> a
+runRainbow :: Handler -> Int -> Rainbow ann a -> a
 runRainbow as l (Rainbow run) = run as l
 
-newtype Rainbow ann a = Rainbow ([ann] -> Int -> a)
+type Handler = forall p . Printer p => Int -> p -> p
+
+newtype Rainbow ann a = Rainbow (Handler -> Int -> a)
   deriving (Monoid, Semigroup)
 
 instance Functor (Rainbow ann) where
   fmap = liftM
 
 instance Applicative (Rainbow ann) where
-  pure = Rainbow . pure . pure
+  pure a = Rainbow $ \ _ _ -> a
   (<*>) = ap
 
 instance Monad (Rainbow ann) where
   m >>= f = Rainbow $ \ as l -> runRainbow as l (f (runRainbow as l m))
 
 instance Show a => Show (Rainbow ann a) where
-  showsPrec p = showsPrec p . runRainbow [] 0
+  showsPrec p = showsPrec p . runRainbow (flip const) 0
 
 instance (Printer a, Ann a ~ ann) => Printer (Rainbow ann a) where
   type Ann (Rainbow ann a) = ann
