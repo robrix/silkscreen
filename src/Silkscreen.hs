@@ -6,7 +6,7 @@ module Silkscreen
 import qualified Prettyprinter as P
 
 -- | A 'Printer' abstracts pretty-printing to allow the composition of behaviours such as e.g. rainbow parentheses, precedence handling, and so forth.
-class Printer p where
+class Monoid p => Printer p where
   -- | The type of annotations supported by the printer.
   --
   -- We provide this as a type family instead of defining 'Printer' over kind @Type -> Type@ in order to allow instances to constrain annotations.
