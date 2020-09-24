@@ -6,6 +6,9 @@ module Silkscreen
 import qualified Prettyprinter as P
 
 class Printer p where
+  -- | The type of annotations supported by the printer.
+  --
+  -- We provide this as a type family instead of defining 'Printer' over kind @Type -> Type@ in order to allow instances of Printer to constrain annotations.
   type Ann p
 
   -- | Parenthesize the argument.
