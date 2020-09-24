@@ -2,6 +2,8 @@
 module Silkscreen
 ( -- * Primitives
   Printer(..)
+  -- * Combinators
+, enclose
 ) where
 
 import qualified Prettyprinter as P
@@ -31,6 +33,12 @@ class Monoid p => Printer p where
   --
   -- Overloadable to support e.g. rainbow braces.
   braces :: p -> p
+
+
+-- Non-primitive combinators
+
+enclose :: Printer p => p -> p -> p -> p
+enclose l r x = l <> x <> r
 
 
 instance Printer (P.Doc ann) where
