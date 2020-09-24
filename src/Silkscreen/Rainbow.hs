@@ -11,8 +11,6 @@ module Silkscreen.Rainbow
 , Rainbow(..)
 ) where
 
-import Control.Applicative (liftA2)
-import Control.Monad (liftM, ap)
 import Silkscreen
 
 class Printer p => NestingPrinter p where
@@ -45,30 +43,20 @@ type Handler = forall p . Printer p => Int -> p -> p
 newtype Rainbow a = Rainbow (Handler -> Int -> a)
   deriving (Monoid, Semigroup)
 
-instance Functor Rainbow where
-  fmap = liftM
-
-instance Applicative Rainbow where
-  pure a = Rainbow $ \ _ _ -> a
-  (<*>) = ap
-
-instance Monad Rainbow where
-  m >>= f = Rainbow $ \ as l -> runRainbow as l (f (runRainbow as l m))
-
 instance Show a => Show (Rainbow a) where
   showsPrec p = showsPrec p . runRainbow (flip const) 0
 
 instance Printer a => Printer (Rainbow a) where
   type Ann (Rainbow a) = Ann a
 
-  fromDoc = pure . fromDoc
-  annotate = fmap . annotate
+  fromDoc = liftR0 . fromDoc
+  annotate = liftR1 . annotate
 
-  group = fmap group
-  flatAlt = liftA2 flatAlt
+  group = liftR1 group
+  flatAlt = liftR2 flatAlt
 
-  align = fmap align
-  nest i = fmap (nest i)
+  align = liftR1 align
+  nest i = liftR1 (nest i)
 
   parens   = encloseNesting lparen   rparen
   brackets = encloseNesting lbracket rbracket
