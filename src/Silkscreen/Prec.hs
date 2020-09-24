@@ -116,3 +116,9 @@ instance Printer a => Printer (Prec level a) where
   parens = fmap parens
   brackets = fmap brackets
   braces = fmap braces
+
+instance Printer a => PrecPrinter (Prec level a) where
+  type Level (Prec level a) = level
+
+  askingPrec f = Prec (runPrec <*> f)
+  localPrec f (Prec p) = Prec (p . f)
