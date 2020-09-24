@@ -73,7 +73,7 @@ rightAssoc :: (PrecPrinter p, Ord (Level p)) => Level p -> Level p -> (p -> p ->
 rightAssoc pl pr op l r = prec pr $ prec pl l `op` r
 
 infix_ :: (PrecPrinter p, Ord (Level p)) => Level p -> (p -> p) -> (p -> p) -> (p -> p -> p) -> (p -> p -> p)
-infix_ p fl fr sep l r = prec p (fl l `sep` fr r)
+infix_ p fl fr op l r = prec p $ fl l `op` fr r
 
 
 instance PrecPrinter b => PrecPrinter (a -> b) where
