@@ -10,6 +10,7 @@ module Silkscreen.Printer.Fresh
 
 import Control.Applicative (liftA2)
 import Silkscreen.Fresh
+import Silkscreen.Nesting
 
 runFresh :: Int -> Fresh p -> p
 runFresh v (Fresh run) = run v
@@ -33,3 +34,10 @@ instance Printer p => Printer (Fresh p) where
 
 instance Printer p => FreshPrinter (Fresh p) where
   bind f = Fresh $ \ v -> runFresh (succ v) (f v)
+
+instance NestingPrinter p => NestingPrinter (Fresh p) where
+  askingNesting f = Fresh $ \ v -> askingNesting (runFresh v . f)
+
+  localNesting f (Fresh p) = Fresh $ localNesting f . p
+
+  applyNesting (Fresh p) = Fresh $ applyNesting . p
