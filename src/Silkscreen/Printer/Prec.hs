@@ -9,6 +9,7 @@ module Silkscreen.Printer.Prec
 ) where
 
 import Control.Applicative (liftA2)
+import Silkscreen.Fresh
 import Silkscreen.Nesting
 import Silkscreen.Precedence
 
@@ -46,3 +47,6 @@ instance (Bounded level, NestingPrinter p) => NestingPrinter (Prec level p) wher
   localNesting f (Prec p) = Prec $ localNesting f . p
 
   applyNesting (Prec p) = Prec $ applyNesting . p
+
+instance (Bounded level, FreshPrinter p) => FreshPrinter (Prec level p) where
+  bind f = Prec $ \ l -> bind (runPrec l . f)
