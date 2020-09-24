@@ -1,6 +1,7 @@
 {-# LANGUAGE TypeFamilies #-}
 module Silkscreen
-( Printer(..)
+( -- * Primitives
+  Printer(..)
 ) where
 
 import qualified Prettyprinter as P
