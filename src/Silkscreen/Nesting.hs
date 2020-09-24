@@ -1,6 +1,6 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE TypeFamilies #-}
-module Silkscreen.Rainbow
+module Silkscreen.Nesting
 ( -- * Printing with nesting levels
   NestingPrinter(..)
 , incrNesting

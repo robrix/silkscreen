@@ -40,10 +40,10 @@ library
   import: common
   exposed-modules:
     Silkscreen
+    Silkscreen.Nesting
     Silkscreen.Precedence
     Silkscreen.Printer.Prec
     Silkscreen.Printer.Rainbow
-    Silkscreen.Rainbow
   build-depends:
     , base ^>= 4.14
     , prettyprinter ^>= 1.7
