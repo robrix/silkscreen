@@ -36,6 +36,9 @@ rainbow (Rainbow run) = run 0
 newtype Rainbow a = Rainbow { runRainbow :: Int -> a }
   deriving (Applicative, Functor, Monad, Monoid, Semigroup)
 
+instance Show a => Show (Rainbow a) where
+  showsPrec p = showsPrec p . rainbow
+
 instance Printer a => Printer (Rainbow a) where
   type Ann (Rainbow a) = Ann a
 
