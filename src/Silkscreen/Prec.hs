@@ -8,6 +8,7 @@ module Silkscreen.Prec
 , assoc
 , nonAssoc
 , leftAssoc
+, rightAssoc
 , infix_
 , infixl_
 , infixr_
@@ -69,6 +70,9 @@ nonAssoc pout pin op l r = prec pout $ prec pin l `op` prec pin r
 
 leftAssoc :: (PrecPrinter p, Ord (Level p)) => Level p -> Level p -> (p -> p -> p) -> (p -> p -> p)
 leftAssoc pl pr op l r = prec pl $ l `op` prec pr r
+
+rightAssoc :: (PrecPrinter p, Ord (Level p)) => Level p -> Level p -> (p -> p -> p) -> (p -> p -> p)
+rightAssoc pl pr op l r = prec pr $ prec pl l `op` r
 
 infix_ :: (PrecPrinter p, Ord (Level p)) => Level p -> Level p -> Level p -> (p -> p -> p) -> (p -> p -> p)
 infix_ p pl pr sep l r = prec p (prec pl l `sep` prec pr r)
