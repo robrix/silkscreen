@@ -9,6 +9,7 @@ module Silkscreen.Printer.Rainbow
 ) where
 
 import Silkscreen.Nesting
+import Silkscreen.Precedence
 
 runRainbow :: (Int -> a -> a) -> Int -> Rainbow a -> a
 runRainbow h l (Rainbow run) = run h l
@@ -34,3 +35,10 @@ instance Printer a => NestingPrinter (Rainbow a) where
   askingNesting f = Rainbow (\ as -> runRainbow as <*> f)
   localNesting f (Rainbow p) = Rainbow (\ as -> p as . f)
   applyNesting a = Rainbow $ \ h l -> h l (runRainbow h l a)
+
+instance PrecedencePrinter p => PrecedencePrinter (Rainbow p) where
+  type Level (Rainbow p) = Level p
+
+  askingPrec f = Rainbow $ \ h l -> askingPrec (runRainbow h l . f)
+
+  localPrec f (Rainbow p) = Rainbow $ \ h -> localPrec f . p h
