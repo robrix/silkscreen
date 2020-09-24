@@ -63,6 +63,7 @@ enclose l r x = l <> x <> r
 surround :: Printer p => p -> p -> p -> p
 surround x l r = enclose l r x
 
+-- | Separate the arguments with a space.
 (<+>) :: Printer p => p -> p -> p
 (<+>) = surround space
 
