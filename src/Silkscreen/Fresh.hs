@@ -1,0 +1,2 @@
+module Silkscreen.Fresh
+() where
