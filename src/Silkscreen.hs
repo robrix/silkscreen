@@ -42,6 +42,12 @@ class Monoid p => Printer p where
 enclose :: Printer p => p -> p -> p -> p
 enclose l r x = l <> x <> r
 
+-- | @'surround' x l r@ wraps @x@ in @l@ and @r@.
+--
+-- This is a reordering of 'enclose', but allows for convenient use in e.g. folds:
+--
+-- >>> 'foldr1' ('surround' ('pretty' ", ")) ['pretty' "apple", 'pretty' "banana"]
+-- apple, banana
 surround :: Printer p => p -> p -> p -> p
 surround x l r = enclose l r x
 
