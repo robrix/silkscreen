@@ -1,4 +1,5 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE TypeFamilies #-}
 module Silkscreen.Rainbow
 ( -- * Printing with nesting levels
   RainbowPrinter(..)
@@ -7,6 +8,7 @@ module Silkscreen.Rainbow
 , Rainbow(..)
 ) where
 
+import Control.Applicative (liftA2)
 import Silkscreen
 
 class Printer p => RainbowPrinter p where
@@ -21,3 +23,19 @@ runRainbow n (Rainbow run) = run n
 
 newtype Rainbow a = Rainbow (Int -> a)
   deriving (Applicative, Functor, Monad, Monoid, Semigroup)
+
+instance Printer a => Printer (Rainbow a) where
+  type Ann (Rainbow a) = Ann a
+
+  fromDoc = pure . fromDoc
+  annotate = fmap . annotate
+
+  group = fmap group
+  flatAlt = liftA2 flatAlt
+
+  align = fmap align
+  nest i = fmap (nest i)
+
+  parens   = fmap parens
+  brackets = fmap brackets
+  braces   = fmap braces
