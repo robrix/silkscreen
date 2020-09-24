@@ -3,7 +3,7 @@
 --
 -- More documentation can be found in "Prettyprinter".
 module Silkscreen
-( -- * Primitives
+( -- * Printing
   Printer(..)
   -- * Combinators
 , pretty
