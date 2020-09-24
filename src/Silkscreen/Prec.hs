@@ -101,7 +101,7 @@ runPrec level (Prec run) = run level
 newtype Prec level a = Prec (level -> a)
   deriving (Applicative, Functor, Monad, Monoid, Semigroup)
 
-instance Printer a => Printer (Prec level a) where
+instance (Bounded level, Printer a) => Printer (Prec level a) where
   type Ann (Prec level a) = Ann a
 
   fromDoc = pure . fromDoc
@@ -113,11 +113,11 @@ instance Printer a => Printer (Prec level a) where
   align = fmap align
   nest i = fmap (nest i)
 
-  parens   = fmap parens
-  brackets = fmap brackets
-  braces   = fmap braces
+  parens   = fmap parens   . setPrec minBound
+  brackets = fmap brackets . setPrec minBound
+  braces   = fmap braces   . setPrec minBound
 
-instance Printer a => PrecPrinter (Prec level a) where
+instance (Bounded level, Printer a) => PrecPrinter (Prec level a) where
   type Level (Prec level a) = level
 
   askingPrec f = Prec (runPrec <*> f)
