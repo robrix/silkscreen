@@ -33,7 +33,7 @@ instance (Bounded level, Printer a) => Printer (Prec level a) where
   brackets = fmap brackets . setPrec minBound
   braces   = fmap braces   . setPrec minBound
 
-instance (Bounded level, Printer a) => PrecPrinter (Prec level a) where
+instance (Bounded level, Printer a) => PrecedencePrinter (Prec level a) where
   type Level (Prec level a) = level
 
   askingPrec f = Prec (runPrec <*> f)
