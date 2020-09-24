@@ -18,8 +18,8 @@ class Printer p => RainbowPrinter p where
   incrNesting :: p -> p
 
 
-rainbow :: Int -> Rainbow a -> a
-rainbow n (Rainbow run) = run n
+rainbow :: Rainbow a -> a
+rainbow (Rainbow run) = run 0
 
 newtype Rainbow a = Rainbow { runRainbow :: Int -> a }
   deriving (Applicative, Functor, Monad, Monoid, Semigroup)
