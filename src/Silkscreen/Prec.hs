@@ -23,15 +23,15 @@ import Silkscreen
 --   deriving (Eq, Ord)
 --
 -- (+.) :: (PrecPrinter p, Level p ~ ArithLevel) => p -> p -> p
--- a +. b = 'prec' Add $ a '<+>' 'pretty' "+" '<+>' b
+-- (+.) = 'assoc' Add ('surround' ('pretty' " + "))
 -- infixl 6 +.
 --
 -- (*.) :: (PrecPrinter p, Level p ~ ArithLevel) => p -> p -> p
--- a *. b = 'prec' Mult $ a '<+>' 'pretty' "*" '<+>' b
+-- (*.) = 'assoc' Mult ('surround' ('pretty' " * "))
 -- infixl 7 *.
 --
 -- (^.) :: (PrecPrinter p, Level p ~ ArithLevel) => p -> p -> p
--- a ^. b = 'prec' Exp $ a '<+>' 'pretty' "^" '<+>' b
+-- (^.) = 'rightAssoc' Exp _ ('surround' ('pretty' " ^ "))
 -- infixr 8 ^.
 -- @
 --
