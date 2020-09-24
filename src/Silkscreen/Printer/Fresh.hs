@@ -17,6 +17,9 @@ runFresh v (Fresh run) = run v
 newtype Fresh p = Fresh (Int -> p)
   deriving (Applicative, Functor, Monad, Monoid, Semigroup)
 
+instance Show p => Show (Fresh p) where
+  showsPrec p = showsPrec p . runFresh 0
+
 instance Printer p => Printer (Fresh p) where
   type Ann (Fresh p) = Ann p
 
