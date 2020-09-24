@@ -23,7 +23,7 @@ import Silkscreen
 -- Given:
 --
 -- @
--- data ArithLevel = Add | Mult | Exp
+-- data ArithLevel = Bottom | Add | Mult | Exp | Top
 --   deriving (Eq, Ord)
 --
 -- (+.) :: (PrecPrinter p, Level p ~ ArithLevel) => p -> p -> p
