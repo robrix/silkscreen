@@ -5,6 +5,9 @@ module Silkscreen.Prec
   PrecPrinter(..)
 , setPrec
 , prec
+, infix_
+, infixl_
+, infixr_
 ) where
 
 import Silkscreen
@@ -53,6 +56,16 @@ setPrec = localPrec . const
 -- | Set a constant precedence, parenthesizing in higher-precedence contexts.
 prec :: (PrecPrinter p, Ord (Level p)) => Level p -> p -> p
 prec l d = askingPrec $ \ l' -> setPrec l (parensIf (l' > l) d)
+
+
+infix_ :: (PrecPrinter p, Ord (Level p)) => Level p -> Level p -> Level p -> (p -> p -> p) -> (p -> p -> p)
+infix_ p pl pr sep l r = prec p (sep (prec pl l) (prec pr r))
+
+infixl_ :: (PrecPrinter p, Ord (Level p)) => Level p -> Level p -> (p -> p -> p) -> (p -> p -> p)
+infixl_ pl pr sep l r = prec pl (sep l (prec pr r))
+
+infixr_ :: (PrecPrinter p, Ord (Level p)) => Level p -> Level p -> (p -> p -> p) -> (p -> p -> p)
+infixr_ pl pr sep l r = prec pr (sep (prec pl l) r)
 
 
 instance PrecPrinter b => PrecPrinter (a -> b) where
