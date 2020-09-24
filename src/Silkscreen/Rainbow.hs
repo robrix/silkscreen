@@ -16,6 +16,9 @@ class Printer p => NestingPrinter p where
   -- | Make a printer informed by the current nesting level.
   askingNesting :: (Int -> p) -> p
 
+  -- | Locally change the nesting level for a printer.
+  localNesting :: (Int -> Int) -> p -> p
+
   -- | Increment the nesting level of a printer.
   --
   -- This should be used inside parentheses, brackets, braces, etc., and will inform the annotation of their delimiters.
@@ -49,4 +52,5 @@ instance Printer a => Printer (Rainbow a) where
 
 instance Printer a => NestingPrinter (Rainbow a) where
   askingNesting f = Rainbow (flip runRainbow <*> f)
+  localNesting f p = Rainbow (runRainbow p . f)
   incrNesting p = Rainbow (runRainbow p . succ)
