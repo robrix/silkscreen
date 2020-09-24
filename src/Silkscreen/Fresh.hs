@@ -1,2 +1,8 @@
 module Silkscreen.Fresh
-() where
+( FreshPrinter(..)
+) where
+
+import Silkscreen
+
+class Printer p => FreshPrinter p where
+  bind :: (Int -> p) -> p
