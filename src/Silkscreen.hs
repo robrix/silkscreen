@@ -19,6 +19,7 @@ module Silkscreen
 , line
 ) where
 
+import           Control.Applicative (liftA2)
 import qualified Prettyprinter as P
 
 -- | A 'Printer' abstracts pretty-printing to allow the composition of behaviours such as e.g. rainbow parentheses, precedence handling, and so forth.
@@ -37,6 +38,9 @@ class Monoid p => Printer p where
 
   -- | Try to unwrap the argument, if it will fit.
   group :: p -> p
+
+  -- | Print the first argument by default, or the second when an enclosing 'group' flattens it.
+  flatAlt :: p -> p -> p
 
 
   -- | Parenthesize the argument.
@@ -119,6 +123,7 @@ instance Printer (P.Doc ann) where
   annotate = P.annotate
 
   group = P.group
+  flatAlt = P.flatAlt
 
   parens = P.parens
   brackets = P.brackets
@@ -132,6 +137,7 @@ instance (Printer a, Printer b, Ann a ~ Ann b) => Printer (a, b) where
   annotate ann (a, b) = (annotate ann a, annotate ann b)
 
   group (a, b) = (group a, group b)
+  flatAlt (a1, b1) (a2, b2) = (flatAlt a1 a2, flatAlt b1 b2)
 
   parens (a, b) = (parens a, parens b)
   brackets (a, b) = (brackets a, brackets b)
@@ -145,6 +151,7 @@ instance Printer b => Printer (a -> b) where
   annotate = fmap . annotate
 
   group = fmap group
+  flatAlt = liftA2 flatAlt
 
   parens = fmap parens
   brackets = fmap brackets
