@@ -5,6 +5,7 @@ module Silkscreen
 
 import qualified Prettyprinter as P
 
+-- | A 'Printer' abstracts pretty-printing to allow the composition of behaviours such as e.g. rainbow parentheses, precedence handling, and so forth.
 class Printer p where
   -- | The type of annotations supported by the printer.
   --
