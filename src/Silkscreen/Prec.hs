@@ -16,6 +16,7 @@ module Silkscreen.Prec
 , Prec(..)
 ) where
 
+import Control.Applicative (liftA2)
 import Silkscreen
 
 -- | Pretty-printing with parenthesis insertion resolving precedence.
@@ -99,3 +100,19 @@ runPrec level (Prec run) = run level
 
 newtype Prec level a = Prec (level -> a)
   deriving (Applicative, Functor, Monad, Monoid, Semigroup)
+
+instance Printer a => Printer (Prec level a) where
+  type Ann (Prec level a) = Ann a
+
+  fromDoc = pure . fromDoc
+  annotate = fmap . annotate
+
+  group = fmap group
+  flatAlt = liftA2 flatAlt
+
+  align = fmap align
+  nest i = fmap (nest i)
+
+  parens = fmap parens
+  brackets = fmap brackets
+  braces = fmap braces
