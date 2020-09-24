@@ -49,13 +49,6 @@ instance Printer a => Printer (Rainbow a) where
   fromDoc = liftR0 . fromDoc
   mapDoc = liftR1 . mapDoc
   mapDoc2 = liftR2 . mapDoc2
-  annotate = liftR1 . annotate
-
-  group = liftR1 group
-  flatAlt = liftR2 flatAlt
-
-  align = liftR1 align
-  nest i = liftR1 (nest i)
 
   parens   = encloseNesting lparen   rparen
   brackets = encloseNesting lbracket rbracket

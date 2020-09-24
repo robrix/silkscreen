@@ -110,13 +110,6 @@ instance (Bounded level, Printer a) => Printer (Prec level a) where
   fromDoc = pure . fromDoc
   mapDoc = fmap . mapDoc
   mapDoc2 = liftA2 . mapDoc2
-  annotate = fmap . annotate
-
-  group = fmap group
-  flatAlt = liftA2 flatAlt
-
-  align = fmap align
-  nest i = fmap (nest i)
 
   parens   = fmap parens   . setPrec minBound
   brackets = fmap brackets . setPrec minBound

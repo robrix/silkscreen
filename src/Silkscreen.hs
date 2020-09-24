@@ -7,6 +7,11 @@ module Silkscreen
   Printer(..)
   -- * Combinators
 , pretty
+, annotate
+, group
+, flatAlt
+, align
+, nest
 , concatWith
 , vcat
 , cat
@@ -52,23 +57,6 @@ class Monoid p => Printer p where
 
   mapDoc2 :: (P.Doc (Ann p) -> P.Doc (Ann p) -> P.Doc (Ann p)) -> (p -> p -> p)
 
-  -- | Annotate a 'Printer' with an @'Ann' p@.
-  annotate :: Ann p -> p -> p
-
-
-  -- | Try to unwrap the argument, if it will fit.
-  group :: p -> p
-
-  -- | Print the first argument by default, or the second when an enclosing 'group' flattens it.
-  flatAlt :: p -> p -> p
-
-
-  -- | Indent lines in the argument to the current column.
-  align :: p -> p
-
-  -- | @'nest' i p@ changes the indentation level for new lines in @p@ by @i@.
-  nest :: Int -> p -> p
-
 
   -- | Parenthesize the argument.
   --
@@ -94,6 +82,29 @@ class Monoid p => Printer p where
 -- | Pretty-print a value using the 'P.Pretty' instance for its type.
 pretty :: (Printer p, P.Pretty t) => t -> p
 pretty = fromDoc . P.pretty
+
+
+-- | Annotate a 'Printer' with an @'Ann' p@.
+annotate :: Printer p => Ann p -> p -> p
+annotate = mapDoc . P.annotate
+
+
+-- | Try to unwrap the argument, if it will fit.
+group :: Printer p => p -> p
+group = mapDoc P.group
+
+-- | Print the first argument by default, or the second when an enclosing 'group' flattens it.
+flatAlt :: Printer p => p -> p -> p
+flatAlt = mapDoc2 P.flatAlt
+
+
+-- | Indent lines in the argument to the current column.
+align :: Printer p => p -> p
+align = mapDoc P.align
+
+-- | @'nest' i p@ changes the indentation level for new lines in @p@ by @i@.
+nest :: Printer p => Int -> p -> p
+nest = mapDoc . P.nest
 
 
 concatWith :: (Monoid p, Foldable t) => (p -> p -> p) -> t p -> p
@@ -204,13 +215,6 @@ instance Printer (P.Doc ann) where
   fromDoc = id
   mapDoc = id
   mapDoc2 = id
-  annotate = P.annotate
-
-  group = P.group
-  flatAlt = P.flatAlt
-
-  align = P.align
-  nest = P.nest
 
   parens = P.parens
   brackets = P.brackets
@@ -223,13 +227,6 @@ instance (Printer a, Printer b, Ann a ~ Ann b) => Printer (a, b) where
   fromDoc d = (fromDoc d, fromDoc d)
   mapDoc f (a, b) = (mapDoc f a, mapDoc f b)
   mapDoc2 f (a1, b1) (a2, b2) = (mapDoc2 f a1 a2, mapDoc2 f b1 b2)
-  annotate ann (a, b) = (annotate ann a, annotate ann b)
-
-  group (a, b) = (group a, group b)
-  flatAlt (a1, b1) (a2, b2) = (flatAlt a1 a2, flatAlt b1 b2)
-
-  align (a, b) = (align a, align b)
-  nest i (a, b) = (nest i a, nest i b)
 
   parens (a, b) = (parens a, parens b)
   brackets (a, b) = (brackets a, brackets b)
@@ -242,13 +239,6 @@ instance Printer b => Printer (a -> b) where
   fromDoc = pure . fromDoc
   mapDoc = fmap . mapDoc
   mapDoc2 = liftA2 . mapDoc2
-  annotate = fmap . annotate
-
-  group = fmap group
-  flatAlt = liftA2 flatAlt
-
-  align = fmap align
-  nest i = fmap (nest i)
 
   parens = fmap parens
   brackets = fmap brackets
