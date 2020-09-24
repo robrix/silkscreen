@@ -1,0 +1,2 @@
+module Silkscreen.Rainbow
+() where
