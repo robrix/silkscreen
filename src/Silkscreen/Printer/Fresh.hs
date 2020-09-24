@@ -11,6 +11,7 @@ module Silkscreen.Printer.Fresh
 import Control.Applicative (liftA2)
 import Silkscreen.Fresh
 import Silkscreen.Nesting
+import Silkscreen.Precedence
 
 runFresh :: Int -> Fresh p -> p
 runFresh v (Fresh run) = run v
@@ -41,3 +42,10 @@ instance NestingPrinter p => NestingPrinter (Fresh p) where
   localNesting f (Fresh p) = Fresh $ localNesting f . p
 
   applyNesting (Fresh p) = Fresh $ applyNesting . p
+
+instance PrecedencePrinter p => PrecedencePrinter (Fresh p) where
+  type Level (Fresh p) = Level p
+
+  askingPrec f = Fresh $ \ v -> askingPrec (runFresh v . f)
+
+  localPrec f (Fresh p) = Fresh $ localPrec f . p
