@@ -68,9 +68,9 @@ instance (Printer a, Ann a ~ ann) => Printer (Rainbow ann a) where
   align = fmap align
   nest i = fmap (nest i)
 
-  parens   = encloseNesting lparen   rparen
-  brackets = encloseNesting lbracket rbracket
-  braces   = encloseNesting lbrace   rbrace
+  parens   = encloseNesting (applyHandler lparen)   (applyHandler rparen)
+  brackets = encloseNesting (applyHandler lbracket) (applyHandler rbracket)
+  braces   = encloseNesting (applyHandler lbrace)   (applyHandler rbrace)
 
 instance (Printer a, Ann a ~ ann) => NestingPrinter (Rainbow ann a) where
   askingNesting f = Rainbow (\ as -> runRainbow as <*> f)
