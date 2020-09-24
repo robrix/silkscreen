@@ -1,2 +1,7 @@
 module Silkscreen.Prec
-() where
+( PrecPrinter
+) where
+
+import Silkscreen
+
+class Printer p => PrecPrinter p where
