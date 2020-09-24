@@ -3,6 +3,7 @@
 module Silkscreen.Rainbow
 ( -- * Printing with nesting levels
   NestingPrinter(..)
+, incrNesting
 , encloseNesting
   -- * Rainbow parentheses
 , rainbow
@@ -19,10 +20,11 @@ class Printer p => NestingPrinter p where
   -- | Locally change the nesting level for a printer.
   localNesting :: (Int -> Int) -> p -> p
 
-  -- | Increment the nesting level of a printer.
-  --
-  -- This should be used inside parentheses, brackets, braces, etc., and will inform the annotation of their delimiters.
-  incrNesting :: p -> p
+-- | Increment the nesting level of a printer.
+--
+-- This should be used inside parentheses, brackets, braces, etc., and will inform the annotation of their delimiters.
+incrNesting :: NestingPrinter p => p -> p
+incrNesting = localNesting succ
 
 encloseNesting :: NestingPrinter p => p -> p -> p -> p
 encloseNesting l r = enclose l r . incrNesting
@@ -53,4 +55,3 @@ instance Printer a => Printer (Rainbow a) where
 instance Printer a => NestingPrinter (Rainbow a) where
   askingNesting f = Rainbow (flip runRainbow <*> f)
   localNesting f p = Rainbow (runRainbow p . f)
-  incrNesting p = Rainbow (runRainbow p . succ)
