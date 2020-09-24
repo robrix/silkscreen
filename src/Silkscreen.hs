@@ -1,5 +1,7 @@
+{-# LANGUAGE TypeFamilies #-}
 module Silkscreen
-( Printer
+( Printer(..)
 ) where
 
 class Printer p where
+  type Ann p
