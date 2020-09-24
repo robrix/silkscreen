@@ -43,6 +43,10 @@ class Monoid p => Printer p where
   flatAlt :: p -> p -> p
 
 
+  -- | Indent lines in the argument to the current column.
+  align :: p -> p
+
+
   -- | Parenthesize the argument.
   --
   -- Overloadable to support e.g. rainbow parentheses.
@@ -125,6 +129,8 @@ instance Printer (P.Doc ann) where
   group = P.group
   flatAlt = P.flatAlt
 
+  align = P.align
+
   parens = P.parens
   brackets = P.brackets
   braces = P.braces
@@ -139,6 +145,8 @@ instance (Printer a, Printer b, Ann a ~ Ann b) => Printer (a, b) where
   group (a, b) = (group a, group b)
   flatAlt (a1, b1) (a2, b2) = (flatAlt a1 a2, flatAlt b1 b2)
 
+  align (a, b) = (align a, align b)
+
   parens (a, b) = (parens a, parens b)
   brackets (a, b) = (brackets a, brackets b)
   braces (a, b) = (braces a, braces b)
@@ -152,6 +160,8 @@ instance Printer b => Printer (a -> b) where
 
   group = fmap group
   flatAlt = liftA2 flatAlt
+
+  align = fmap align
 
   parens = fmap parens
   brackets = fmap brackets
