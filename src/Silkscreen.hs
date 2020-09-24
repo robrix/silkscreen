@@ -158,6 +158,7 @@ infixr 6 <+>
 infixr 6 </>
 
 
+-- | Conditional parenthesization of a printer. Analogous to 'showParen', but for printers.
 parensIf :: Printer p => Bool -> p -> p
 parensIf True = parens
 parensIf _    = id
