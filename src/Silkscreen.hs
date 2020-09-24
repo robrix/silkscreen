@@ -4,6 +4,7 @@ module Silkscreen
   Printer(..)
   -- * Combinators
 , enclose
+, surround
 ) where
 
 import qualified Prettyprinter as P
@@ -39,6 +40,9 @@ class Monoid p => Printer p where
 
 enclose :: Printer p => p -> p -> p -> p
 enclose l r x = l <> x <> r
+
+surround :: Printer p => p -> p -> p -> p
+surround x l r = enclose l r x
 
 
 instance Printer (P.Doc ann) where
