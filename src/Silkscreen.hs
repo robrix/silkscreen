@@ -46,6 +46,9 @@ class Monoid p => Printer p where
   -- | Indent lines in the argument to the current column.
   align :: p -> p
 
+  -- | @'nest' i p@ changes the indentation level for new lines in @p@ by @i@.
+  nest :: Int -> p -> p
+
 
   -- | Parenthesize the argument.
   --
@@ -130,6 +133,7 @@ instance Printer (P.Doc ann) where
   flatAlt = P.flatAlt
 
   align = P.align
+  nest = P.nest
 
   parens = P.parens
   brackets = P.brackets
@@ -146,6 +150,7 @@ instance (Printer a, Printer b, Ann a ~ Ann b) => Printer (a, b) where
   flatAlt (a1, b1) (a2, b2) = (flatAlt a1 a2, flatAlt b1 b2)
 
   align (a, b) = (align a, align b)
+  nest i (a, b) = (nest i a, nest i b)
 
   parens (a, b) = (parens a, parens b)
   brackets (a, b) = (brackets a, brackets b)
@@ -162,6 +167,7 @@ instance Printer b => Printer (a -> b) where
   flatAlt = liftA2 flatAlt
 
   align = fmap align
+  nest i = fmap (nest i)
 
   parens = fmap parens
   brackets = fmap brackets
