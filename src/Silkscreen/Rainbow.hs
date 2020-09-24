@@ -22,6 +22,11 @@ class Printer p => NestingPrinter p where
   -- | Locally change the nesting level for a printer.
   localNesting :: (Int -> Int) -> p -> p
 
+  -- | Apply the current nesting level to a printer.
+  --
+  -- Different instances can give different meanings to this, e.g. annotating the argument with the nesting level or some other means of rendering it differently.
+  applyNesting :: p -> p
+
 -- | Increment the nesting level of a printer.
 --
 -- This should be used inside parentheses, brackets, braces, etc., and will inform the annotation of their delimiters.
@@ -39,9 +44,6 @@ type Handler = forall p . Printer p => Int -> p -> p
 
 newtype Rainbow ann a = Rainbow (Handler -> Int -> a)
   deriving (Monoid, Semigroup)
-
-applyNesting :: Printer a => Rainbow ann a -> Rainbow ann a
-applyNesting a = Rainbow $ \ h l -> h l (runRainbow h l a)
 
 instance Functor (Rainbow ann) where
   fmap = liftM
@@ -75,3 +77,4 @@ instance (Printer a, Ann a ~ ann) => Printer (Rainbow ann a) where
 instance (Printer a, Ann a ~ ann) => NestingPrinter (Rainbow ann a) where
   askingNesting f = Rainbow (\ as -> runRainbow as <*> f)
   localNesting f (Rainbow p) = Rainbow (\ as -> p as . f)
+  applyNesting a = Rainbow $ \ h l -> h l (runRainbow h l a)
