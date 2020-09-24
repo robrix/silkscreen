@@ -22,9 +22,9 @@ instance Show a => Show (Rainbow a) where
 instance Printer a => Printer (Rainbow a) where
   type Ann (Rainbow a) = Ann a
 
-  liftDoc0 = liftR0 . liftDoc0
-  liftDoc1 = liftR1 . liftDoc1
-  liftDoc2 = liftR2 . liftDoc2
+  liftDoc0 d = Rainbow $ \ _ _ -> liftDoc0 d
+  liftDoc1 f p = Rainbow $ \ h l -> liftDoc1 f (runRainbow h l p)
+  liftDoc2 f p1 p2 = Rainbow $ \ h l -> liftDoc2 f (runRainbow h l p1) (runRainbow h l p2)
 
   parens   = encloseNesting lparen   rparen
   brackets = encloseNesting lbracket rbracket
@@ -34,16 +34,3 @@ instance Printer a => NestingPrinter (Rainbow a) where
   askingNesting f = Rainbow (\ as -> runRainbow as <*> f)
   localNesting f (Rainbow p) = Rainbow (\ as -> p as . f)
   applyNesting a = Rainbow $ \ h l -> h l (runRainbow h l a)
-
-
--- | Like 'pure', w/o requiring an 'Applicative' instance.
-liftR0 :: a -> Rainbow a
-liftR0 a = Rainbow $ \ _ _ -> a
-
--- | Like a type-restricted 'fmap', w/o requiring a 'Functor' instance.
-liftR1 :: (a -> a) -> (Rainbow a -> Rainbow a)
-liftR1 f r = Rainbow $ \ h l -> f (runRainbow h l r)
-
--- | Like a type-restricted 'Control.Applicative.liftA2', w/o requiring an 'Applicative' instance.
-liftR2 :: (a -> a -> a) -> (Rainbow a -> Rainbow a -> Rainbow a)
-liftR2 f r1 r2 = Rainbow $ \ h l -> f (runRainbow h l r1) (runRainbow h l r2)
