@@ -5,6 +5,9 @@ module Silkscreen
   -- * Combinators
 , enclose
 , surround
+  -- * Symbols
+, lparen
+, rparen
 ) where
 
 import qualified Prettyprinter as P
@@ -50,6 +53,13 @@ enclose l r x = l <> x <> r
 -- apple, banana
 surround :: Printer p => p -> p -> p -> p
 surround x l r = enclose l r x
+
+
+-- Symbols
+
+lparen, rparen :: Printer p => p
+lparen = pretty '('
+rparen = pretty ')'
 
 
 instance Printer (P.Doc ann) where
