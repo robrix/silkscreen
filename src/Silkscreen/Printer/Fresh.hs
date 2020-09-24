@@ -13,4 +13,4 @@ runFresh :: Int -> Fresh p -> p
 runFresh v (Fresh run) = run v
 
 newtype Fresh p = Fresh (Int -> p)
-  deriving (Applicative, Functor, Monoid, Semigroup)
+  deriving (Applicative, Functor, Monad, Monoid, Semigroup)
