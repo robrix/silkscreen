@@ -7,6 +7,7 @@ module Silkscreen.Rainbow
 , incrNesting
 , encloseNesting
   -- * Rainbow parentheses
+, runRainbow
 , Rainbow(..)
 ) where
 
