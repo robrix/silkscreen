@@ -34,3 +34,11 @@ instance Printer (P.Doc ann) where
   parens = P.parens
   brackets = P.brackets
   braces = P.braces
+
+
+instance Printer b => Printer (a -> b) where
+  type Ann (a -> b) = Ann b
+
+  parens = fmap parens
+  brackets = fmap brackets
+  braces = fmap braces
