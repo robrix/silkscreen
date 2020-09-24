@@ -2,7 +2,7 @@
 {-# LANGUAGE TypeFamilies #-}
 module Silkscreen.Rainbow
 ( -- * Printing with nesting levels
-  RainbowPrinter(..)
+  NestingPrinter(..)
 , encloseNesting
   -- * Rainbow parentheses
 , rainbow
@@ -12,7 +12,7 @@ module Silkscreen.Rainbow
 import Control.Applicative (liftA2)
 import Silkscreen
 
-class Printer p => RainbowPrinter p where
+class Printer p => NestingPrinter p where
   askingNesting :: (Int -> p) -> p
 
   -- | Increment the nesting level of a printer.
@@ -20,7 +20,7 @@ class Printer p => RainbowPrinter p where
   -- This should be used inside parentheses, brackets, braces, etc., and will inform the annotation of their delimiters.
   incrNesting :: p -> p
 
-encloseNesting :: RainbowPrinter p => p -> p -> p -> p
+encloseNesting :: NestingPrinter p => p -> p -> p -> p
 encloseNesting l r = enclose l r . incrNesting
 
 
@@ -46,6 +46,6 @@ instance Printer a => Printer (Rainbow a) where
   brackets = encloseNesting lbracket rbracket
   braces   = encloseNesting lbrace   rbrace
 
-instance Printer a => RainbowPrinter (Rainbow a) where
+instance Printer a => NestingPrinter (Rainbow a) where
   askingNesting f = Rainbow (flip runRainbow <*> f)
   incrNesting p = Rainbow (runRainbow p . succ)
