@@ -17,8 +17,14 @@ class Printer p where
   -- Overloadable to support e.g. rainbow parentheses.
   parens :: p -> p
 
+  -- | Wrap the argument in brackets.
+  --
+  -- Overloadable to support e.g. rainbow brackets.
+  brackets :: p -> p
+
 
 instance Printer (P.Doc ann) where
   type Ann (P.Doc ann) = ann
 
   parens = P.parens
+  brackets = P.brackets
