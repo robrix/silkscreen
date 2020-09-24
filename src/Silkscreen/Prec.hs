@@ -11,4 +11,5 @@ class Printer p => PrecPrinter p where
   -- | Print informed by the current 'Level'.
   askingPrec :: (Level p -> p) -> p
 
+  -- | Locally change the 'Level' in a printer.
   localPrec :: (Level p -> Level p) -> p -> p
