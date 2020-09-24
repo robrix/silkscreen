@@ -12,6 +12,7 @@ class Printer p where
   -- We provide this as a type family instead of defining 'Printer' over kind @Type -> Type@ in order to allow instances to constrain annotations.
   type Ann p
 
+  -- | Pretty-print a value using the 'P.Pretty' instance for its type.
   pretty :: P.Pretty t => t -> p
 
 
