@@ -13,6 +13,8 @@ import Control.Applicative (liftA2)
 import Silkscreen
 
 class Printer p => RainbowPrinter p where
+  askingNesting :: (Int -> p) -> p
+
   -- | Increment the nesting level of a printer.
   --
   -- This should be used inside parentheses, brackets, braces, etc., and will inform the annotation of their delimiters.
@@ -45,4 +47,5 @@ instance Printer a => Printer (Rainbow a) where
   braces   = encloseNesting lbrace   rbrace
 
 instance Printer a => RainbowPrinter (Rainbow a) where
+  askingNesting f = Rainbow (flip runRainbow <*> f)
   incrNesting p = Rainbow (runRainbow p . succ)
