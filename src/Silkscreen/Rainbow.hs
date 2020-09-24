@@ -6,11 +6,11 @@ module Silkscreen.Rainbow
 , incrNesting
 , encloseNesting
   -- * Rainbow parentheses
-, rainbow
 , Rainbow(..)
 ) where
 
 import Control.Applicative (liftA2)
+import Control.Monad (liftM, ap)
 import Silkscreen
 
 class Printer p => NestingPrinter p where
@@ -30,14 +30,24 @@ encloseNesting :: NestingPrinter p => p -> p -> p -> p
 encloseNesting l r = enclose l r . incrNesting
 
 
-rainbow :: Rainbow ann a -> a
-rainbow (Rainbow run) = run 0
+runRainbow :: [ann] -> Int -> Rainbow ann a -> a
+runRainbow as l (Rainbow run) = run as l
 
-newtype Rainbow ann a = Rainbow { runRainbow :: Int -> a }
-  deriving (Applicative, Functor, Monad, Monoid, Semigroup)
+newtype Rainbow ann a = Rainbow ([ann] -> Int -> a)
+  deriving (Monoid, Semigroup)
+
+instance Functor (Rainbow ann) where
+  fmap = liftM
+
+instance Applicative (Rainbow ann) where
+  pure = Rainbow . pure . pure
+  (<*>) = ap
+
+instance Monad (Rainbow ann) where
+  m >>= f = Rainbow $ \ as l -> runRainbow as l (f (runRainbow as l m))
 
 instance Show a => Show (Rainbow ann a) where
-  showsPrec p = showsPrec p . rainbow
+  showsPrec p = showsPrec p . runRainbow [] 0
 
 instance (Printer a, Ann a ~ ann) => Printer (Rainbow ann a) where
   type Ann (Rainbow ann a) = ann
@@ -56,5 +66,5 @@ instance (Printer a, Ann a ~ ann) => Printer (Rainbow ann a) where
   braces   = encloseNesting lbrace   rbrace
 
 instance (Printer a, Ann a ~ ann) => NestingPrinter (Rainbow ann a) where
-  askingNesting f = Rainbow (flip runRainbow <*> f)
-  localNesting f p = Rainbow (runRainbow p . f)
+  askingNesting f = Rainbow (\ as -> runRainbow as <*> f)
+  localNesting f (Rainbow p) = Rainbow (\ as -> p as . f)
