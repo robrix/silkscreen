@@ -8,6 +8,9 @@ import qualified Prettyprinter as P
 class Printer p where
   type Ann p
 
+  -- | Parenthesize the argument.
+  --
+  -- Overloadable to support e.g. rainbow parentheses.
   parens :: p -> p
 
 
