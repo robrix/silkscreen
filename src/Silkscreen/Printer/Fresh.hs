@@ -1,2 +1,6 @@
 module Silkscreen.Printer.Fresh
-() where
+( -- * Printer binding fresh variables
+  Fresh(..)
+) where
+
+newtype Fresh p = Fresh (Int -> p)
