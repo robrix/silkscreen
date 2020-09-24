@@ -40,6 +40,7 @@ library
   import: common
   exposed-modules:
     Silkscreen
+    Silkscreen.Prec
   build-depends:
     , base ^>= 4.14
     , prettyprinter ^>= 1.7
