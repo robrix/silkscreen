@@ -11,6 +11,7 @@ module Silkscreen
 , vcat
 , cat
 , vsep
+, sep
 , enclose
 , surround
 , (<+>)
@@ -97,6 +98,9 @@ cat = group . vcat
 
 vsep :: Printer p => [p] -> p
 vsep = concatWith (</>)
+
+sep :: Printer p => [p] -> p
+sep = group . vsep
 
 
 -- | @'enclose' l r x@ wraps @x@ in @l@ and @r@.
