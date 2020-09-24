@@ -40,6 +40,9 @@ type Handler = forall p . Printer p => Int -> p -> p
 newtype Rainbow ann a = Rainbow (Handler -> Int -> a)
   deriving (Monoid, Semigroup)
 
+applyHandler :: Printer a => Rainbow ann a -> Rainbow ann a
+applyHandler a = Rainbow $ \ h l -> h l (runRainbow h l a)
+
 instance Functor (Rainbow ann) where
   fmap = liftM
 
