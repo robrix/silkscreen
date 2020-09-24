@@ -8,6 +8,7 @@ module Silkscreen
   -- * Combinators
 , pretty
 , concatWith
+, vcat
 , enclose
 , surround
 , (<+>)
@@ -85,6 +86,10 @@ concatWith :: (Monoid p, Foldable t) => (p -> p -> p) -> t p -> p
 concatWith (<>) ds
   | null ds   = mempty
   | otherwise = foldr1 (<>) ds
+
+vcat :: Printer p => [p] -> p
+vcat = concatWith (surround line')
+
 
 -- | @'enclose' l r x@ wraps @x@ in @l@ and @r@.
 enclose :: Printer p => p -> p -> p -> p
