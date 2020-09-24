@@ -71,6 +71,7 @@ surround x l r = enclose l r x
 
 infixr 6 <+>
 
+-- | Separate the arguments with a line.
 (</>) :: Printer p => p -> p -> p
 (</>) = surround line
 
