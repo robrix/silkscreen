@@ -35,7 +35,7 @@ import Silkscreen
 -- infixl 7 *.
 --
 -- (^.) :: (PrecPrinter p, Level p ~ ArithLevel) => p -> p -> p
--- (^.) = 'rightAssoc' Exp _ ('surround' ('pretty' " ^ "))
+-- (^.) = 'rightAssoc' Exp Top ('surround' ('pretty' " ^ "))
 -- infixr 8 ^.
 -- @
 --
