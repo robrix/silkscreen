@@ -106,6 +106,7 @@ instance (Bounded level, Show a) => Show (Prec level a) where
 
 instance (Bounded level, Printer a) => Printer (Prec level a) where
   type Ann (Prec level a) = Ann a
+  type Doc (Prec level a) = Doc a
 
   fromDoc = pure . fromDoc
   mapDoc = fmap . mapDoc
