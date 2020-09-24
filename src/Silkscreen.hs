@@ -86,22 +86,22 @@ infixr 6 </>
 -- Symbols
 
 lparen, rparen :: Printer p => p
-lparen = pretty '('
-rparen = pretty ')'
+lparen = fromDoc P.lparen
+rparen = fromDoc P.rparen
 
 lbracket, rbracket :: Printer p => p
-lbracket = pretty '['
-rbracket = pretty ']'
+lbracket = fromDoc P.lbracket
+rbracket = fromDoc P.rbracket
 
 lbrace, rbrace :: Printer p => p
-lbrace = pretty '['
-rbrace = pretty ']'
+lbrace = fromDoc P.lbrace
+rbrace = fromDoc P.rbrace
 
 space :: Printer p => p
-space = pretty ' '
+space = fromDoc P.space
 
 line :: Printer p => p
-line = pretty '\n'
+line = fromDoc P.line
 
 
 instance Printer (P.Doc ann) where
