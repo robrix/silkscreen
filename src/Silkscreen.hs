@@ -17,6 +17,7 @@ module Silkscreen
 , rbrace
 , space
 , line
+, line'
 ) where
 
 import           Control.Applicative (liftA2)
@@ -121,6 +122,9 @@ space = fromDoc P.space
 
 line :: Printer p => p
 line = fromDoc P.line
+
+line' :: Printer p => p
+line' = fromDoc P.line'
 
 
 instance Printer (P.Doc ann) where
