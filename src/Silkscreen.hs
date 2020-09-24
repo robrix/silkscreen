@@ -31,6 +31,9 @@ class Monoid p => Printer p where
   -- | Lift a 'P.Doc' to a 'Printer'.
   fromDoc :: P.Doc (Ann p) -> p
 
+  -- | Annotate a 'Printer' with an @'Ann' p@.
+  annotate :: Ann p -> p -> p
+
 
   -- | Try to unwrap the argument, if it will fit.
   group :: p -> p
@@ -113,6 +116,7 @@ instance Printer (P.Doc ann) where
   type Ann (P.Doc ann) = ann
 
   fromDoc = id
+  annotate = P.annotate
 
   group = P.group
 
@@ -125,6 +129,7 @@ instance Printer b => Printer (a -> b) where
   type Ann (a -> b) = Ann b
 
   fromDoc = pure . fromDoc
+  annotate = fmap . annotate
 
   group = fmap group
 
