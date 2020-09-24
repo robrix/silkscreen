@@ -1,2 +1,5 @@
 module Silkscreen
-() where
+( Printer
+) where
+
+class Printer p where
