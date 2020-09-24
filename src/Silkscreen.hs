@@ -6,6 +6,7 @@ module Silkscreen
 , enclose
 , surround
 , (<+>)
+, (</>)
   -- * Symbols
 , lparen
 , rparen
@@ -69,6 +70,11 @@ surround x l r = enclose l r x
 (<+>) = surround space
 
 infixr 6 <+>
+
+(</>) :: Printer p => p -> p -> p
+(</>) = surround line
+
+infixr 6 </>
 
 
 -- Symbols
