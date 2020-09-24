@@ -37,6 +37,7 @@ class Monoid p => Printer p where
   --
   -- Overloadable to support e.g. rainbow brackets.
   brackets :: p -> p
+  brackets = enclose lbracket rbracket
 
   -- | Wrap the argument in braces.
   --
