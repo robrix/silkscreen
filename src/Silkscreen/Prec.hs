@@ -14,6 +14,8 @@ module Silkscreen.Prec
   -- * Prec
 , runPrec
 , Prec(..)
+  -- * Re-exports
+, module Silkscreen
 ) where
 
 import Control.Applicative (liftA2)
