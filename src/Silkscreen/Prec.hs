@@ -113,9 +113,9 @@ instance Printer a => Printer (Prec level a) where
   align = fmap align
   nest i = fmap (nest i)
 
-  parens = fmap parens
+  parens   = fmap parens
   brackets = fmap brackets
-  braces = fmap braces
+  braces   = fmap braces
 
 instance Printer a => PrecPrinter (Prec level a) where
   type Level (Prec level a) = level
