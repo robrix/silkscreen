@@ -1,2 +1,6 @@
 module Silkscreen.Printer.Prec
-() where
+( -- * Re-exports
+  module Silkscreen.Prec
+) where
+
+import Silkscreen.Prec
