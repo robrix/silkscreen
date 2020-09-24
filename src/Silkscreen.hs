@@ -7,6 +7,7 @@ module Silkscreen
   Printer(..)
   -- * Combinators
 , pretty
+, concatWith
 , enclose
 , surround
 , (<+>)
@@ -79,6 +80,11 @@ class Monoid p => Printer p where
 pretty :: (Printer p, P.Pretty t) => t -> p
 pretty = fromDoc . P.pretty
 
+
+concatWith :: (Monoid p, Foldable t) => (p -> p -> p) -> t p -> p
+concatWith (<>) ds
+  | null ds   = mempty
+  | otherwise = foldr1 (<>) ds
 
 -- | @'enclose' l r x@ wraps @x@ in @l@ and @r@.
 enclose :: Printer p => p -> p -> p -> p
