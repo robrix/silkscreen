@@ -51,11 +51,11 @@ class Monoid p => Printer p where
   type Ann p
 
   -- | Lift a 'P.Doc' to a 'Printer'.
-  fromDoc :: P.Doc (Ann p) -> p
+  liftDoc0 :: P.Doc (Ann p) -> p
 
-  mapDoc :: (P.Doc (Ann p) -> P.Doc (Ann p)) -> (p -> p)
+  liftDoc1 :: (P.Doc (Ann p) -> P.Doc (Ann p)) -> (p -> p)
 
-  mapDoc2 :: (P.Doc (Ann p) -> P.Doc (Ann p) -> P.Doc (Ann p)) -> (p -> p -> p)
+  liftDoc2 :: (P.Doc (Ann p) -> P.Doc (Ann p) -> P.Doc (Ann p)) -> (p -> p -> p)
 
 
   -- | Parenthesize the argument.
@@ -81,30 +81,30 @@ class Monoid p => Printer p where
 
 -- | Pretty-print a value using the 'P.Pretty' instance for its type.
 pretty :: (Printer p, P.Pretty t) => t -> p
-pretty = fromDoc . P.pretty
+pretty = liftDoc0 . P.pretty
 
 
 -- | Annotate a 'Printer' with an @'Ann' p@.
 annotate :: Printer p => Ann p -> p -> p
-annotate = mapDoc . P.annotate
+annotate = liftDoc1 . P.annotate
 
 
 -- | Try to unwrap the argument, if it will fit.
 group :: Printer p => p -> p
-group = mapDoc P.group
+group = liftDoc1 P.group
 
 -- | Print the first argument by default, or the second when an enclosing 'group' flattens it.
 flatAlt :: Printer p => p -> p -> p
-flatAlt = mapDoc2 P.flatAlt
+flatAlt = liftDoc2 P.flatAlt
 
 
 -- | Indent lines in the argument to the current column.
 align :: Printer p => p -> p
-align = mapDoc P.align
+align = liftDoc1 P.align
 
 -- | @'nest' i p@ changes the indentation level for new lines in @p@ by @i@.
 nest :: Printer p => Int -> p -> p
-nest = mapDoc . P.nest
+nest = liftDoc1 . P.nest
 
 
 concatWith :: (Monoid p, Foldable t) => (p -> p -> p) -> t p -> p
@@ -182,39 +182,39 @@ parensIf _    = id
 -- Symbols
 
 space :: Printer p => p
-space = fromDoc P.space
+space = liftDoc0 P.space
 
 line :: Printer p => p
-line = fromDoc P.line
+line = liftDoc0 P.line
 
 line' :: Printer p => p
-line' = fromDoc P.line'
+line' = liftDoc0 P.line'
 
 lparen, rparen :: Printer p => p
-lparen = fromDoc P.lparen
-rparen = fromDoc P.rparen
+lparen = liftDoc0 P.lparen
+rparen = liftDoc0 P.rparen
 
 lbracket, rbracket :: Printer p => p
-lbracket = fromDoc P.lbracket
-rbracket = fromDoc P.rbracket
+lbracket = liftDoc0 P.lbracket
+rbracket = liftDoc0 P.rbracket
 
 lbrace, rbrace :: Printer p => p
-lbrace = fromDoc P.lbrace
-rbrace = fromDoc P.rbrace
+lbrace = liftDoc0 P.lbrace
+rbrace = liftDoc0 P.rbrace
 
 comma :: Printer p => p
-comma = fromDoc P.comma
+comma = liftDoc0 P.comma
 
 colon :: Printer p => p
-colon = fromDoc P.colon
+colon = liftDoc0 P.colon
 
 
 instance Printer (P.Doc ann) where
   type Ann (P.Doc ann) = ann
 
-  fromDoc = id
-  mapDoc = id
-  mapDoc2 = id
+  liftDoc0 = id
+  liftDoc1 = id
+  liftDoc2 = id
 
   parens = P.parens
   brackets = P.brackets
@@ -224,9 +224,9 @@ instance Printer (P.Doc ann) where
 instance (Printer a, Printer b, Ann a ~ Ann b) => Printer (a, b) where
   type Ann (a, b) = Ann b
 
-  fromDoc d = (fromDoc d, fromDoc d)
-  mapDoc f (a, b) = (mapDoc f a, mapDoc f b)
-  mapDoc2 f (a1, b1) (a2, b2) = (mapDoc2 f a1 a2, mapDoc2 f b1 b2)
+  liftDoc0 d = (liftDoc0 d, liftDoc0 d)
+  liftDoc1 f (a, b) = (liftDoc1 f a, liftDoc1 f b)
+  liftDoc2 f (a1, b1) (a2, b2) = (liftDoc2 f a1 a2, liftDoc2 f b1 b2)
 
   parens (a, b) = (parens a, parens b)
   brackets (a, b) = (brackets a, brackets b)
@@ -236,9 +236,9 @@ instance (Printer a, Printer b, Ann a ~ Ann b) => Printer (a, b) where
 instance Printer b => Printer (a -> b) where
   type Ann (a -> b) = Ann b
 
-  fromDoc = pure . fromDoc
-  mapDoc = fmap . mapDoc
-  mapDoc2 = liftA2 . mapDoc2
+  liftDoc0 = pure . liftDoc0
+  liftDoc1 = fmap . liftDoc1
+  liftDoc2 = liftA2 . liftDoc2
 
   parens = fmap parens
   brackets = fmap brackets

@@ -46,9 +46,9 @@ instance Show a => Show (Rainbow a) where
 instance Printer a => Printer (Rainbow a) where
   type Ann (Rainbow a) = Ann a
 
-  fromDoc = liftR0 . fromDoc
-  mapDoc = liftR1 . mapDoc
-  mapDoc2 = liftR2 . mapDoc2
+  liftDoc0 = liftR0 . liftDoc0
+  liftDoc1 = liftR1 . liftDoc1
+  liftDoc2 = liftR2 . liftDoc2
 
   parens   = encloseNesting lparen   rparen
   brackets = encloseNesting lbracket rbracket

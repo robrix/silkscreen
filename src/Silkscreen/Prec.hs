@@ -107,9 +107,9 @@ instance (Bounded level, Show a) => Show (Prec level a) where
 instance (Bounded level, Printer a) => Printer (Prec level a) where
   type Ann (Prec level a) = Ann a
 
-  fromDoc = pure . fromDoc
-  mapDoc = fmap . mapDoc
-  mapDoc2 = liftA2 . mapDoc2
+  liftDoc0 = pure . liftDoc0
+  liftDoc1 = fmap . liftDoc1
+  liftDoc2 = liftA2 . liftDoc2
 
   parens   = fmap parens   . setPrec minBound
   brackets = fmap brackets . setPrec minBound
