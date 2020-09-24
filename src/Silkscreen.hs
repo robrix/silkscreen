@@ -3,6 +3,7 @@ module Silkscreen
 ( -- * Primitives
   Printer(..)
   -- * Combinators
+, pretty
 , enclose
 , surround
 , (<+>)
@@ -29,9 +30,6 @@ class Monoid p => Printer p where
 
   fromDoc :: P.Doc (Ann p) -> p
 
-  -- | Pretty-print a value using the 'P.Pretty' instance for its type.
-  pretty :: P.Pretty t => t -> p
-
 
   -- | Parenthesize the argument.
   --
@@ -53,6 +51,11 @@ class Monoid p => Printer p where
 
 
 -- Non-primitive combinators
+
+-- | Pretty-print a value using the 'P.Pretty' instance for its type.
+pretty :: (Printer p, P.Pretty t) => t -> p
+pretty = fromDoc . P.pretty
+
 
 -- | @'enclose' l r x@ wraps @x@ in @l@ and @r@.
 enclose :: Printer p => p -> p -> p -> p
@@ -106,8 +109,6 @@ instance Printer (P.Doc ann) where
 
   fromDoc = id
 
-  pretty = P.pretty
-
   parens = P.parens
   brackets = P.brackets
   braces = P.braces
@@ -117,8 +118,6 @@ instance Printer b => Printer (a -> b) where
   type Ann (a -> b) = Ann b
 
   fromDoc = pure . fromDoc
-
-  pretty = pure . pretty
 
   parens = fmap parens
   brackets = fmap brackets
