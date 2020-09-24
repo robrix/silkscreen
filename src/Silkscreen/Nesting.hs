@@ -29,3 +29,9 @@ incrNesting = localNesting succ
 
 encloseNesting :: NestingPrinter p => p -> p -> p -> p
 encloseNesting l r = enclose (applyNesting l) (applyNesting r) . incrNesting
+
+
+instance NestingPrinter b => NestingPrinter (a -> b) where
+  askingNesting f = askingNesting . flip f
+  localNesting f p = localNesting f . p
+  applyNesting p = applyNesting . p
