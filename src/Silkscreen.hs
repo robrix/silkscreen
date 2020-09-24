@@ -27,6 +27,7 @@ class Monoid p => Printer p where
   --
   -- Overloadable to support e.g. rainbow parentheses.
   parens :: p -> p
+  parens = enclose lparen rparen
 
   -- | Wrap the argument in brackets.
   --
