@@ -27,6 +27,8 @@ class Monoid p => Printer p where
   -- We provide this as a type family instead of defining 'Printer' over kind @Type -> Type@ in order to allow instances to constrain annotations.
   type Ann p
 
+  fromDoc :: P.Doc (Ann p) -> p
+
   -- | Pretty-print a value using the 'P.Pretty' instance for its type.
   pretty :: P.Pretty t => t -> p
 
@@ -102,6 +104,8 @@ line = pretty '\n'
 instance Printer (P.Doc ann) where
   type Ann (P.Doc ann) = ann
 
+  fromDoc = id
+
   pretty = P.pretty
 
   parens = P.parens
@@ -111,6 +115,8 @@ instance Printer (P.Doc ann) where
 
 instance Printer b => Printer (a -> b) where
   type Ann (a -> b) = Ann b
+
+  fromDoc = pure . fromDoc
 
   pretty = pure . pretty
 
