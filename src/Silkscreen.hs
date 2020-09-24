@@ -30,6 +30,7 @@ module Silkscreen
 , lbrace
 , rbrace
 , comma
+, colon
 ) where
 
 import           Control.Applicative (liftA2)
@@ -180,6 +181,9 @@ rbrace = fromDoc P.rbrace
 
 comma :: Printer p => p
 comma = fromDoc P.comma
+
+colon :: Printer p => p
+colon = fromDoc P.colon
 
 
 instance Printer (P.Doc ann) where
