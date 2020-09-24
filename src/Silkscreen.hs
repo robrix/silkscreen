@@ -12,6 +12,9 @@ class Printer p where
   -- We provide this as a type family instead of defining 'Printer' over kind @Type -> Type@ in order to allow instances to constrain annotations.
   type Ann p
 
+  pretty :: P.Pretty t => t -> p
+
+
   -- | Parenthesize the argument.
   --
   -- Overloadable to support e.g. rainbow parentheses.
@@ -31,6 +34,8 @@ class Printer p where
 instance Printer (P.Doc ann) where
   type Ann (P.Doc ann) = ann
 
+  pretty = P.pretty
+
   parens = P.parens
   brackets = P.brackets
   braces = P.braces
@@ -38,6 +43,8 @@ instance Printer (P.Doc ann) where
 
 instance Printer b => Printer (a -> b) where
   type Ann (a -> b) = Ann b
+
+  pretty = pure . pretty
 
   parens = fmap parens
   brackets = fmap brackets
