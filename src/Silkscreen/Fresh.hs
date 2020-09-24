@@ -1,5 +1,7 @@
 module Silkscreen.Fresh
 ( FreshPrinter(..)
+  -- * Re-exports
+, module Silkscreen
 ) where
 
 import Silkscreen
