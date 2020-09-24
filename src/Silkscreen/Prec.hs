@@ -8,6 +8,7 @@ import Silkscreen
 class Printer p => PrecPrinter p where
   type Level p
 
+  -- | Print informed by the current 'Level'.
   askingPrec :: (Level p -> p) -> p
 
   localPrec :: (Level p -> Level p) -> p -> p
