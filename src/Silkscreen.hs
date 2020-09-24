@@ -38,6 +38,8 @@ module Silkscreen
 , rbrace
 , comma
 , colon
+  -- * Re-exports
+, P.Pretty
 ) where
 
 import           Control.Applicative (liftA2)
