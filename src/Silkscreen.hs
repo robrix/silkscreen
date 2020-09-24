@@ -18,15 +18,15 @@ module Silkscreen
 , (<+>)
 , (</>)
   -- * Symbols
+, space
+, line
+, line'
 , lparen
 , rparen
 , lbracket
 , rbracket
 , lbrace
 , rbrace
-, space
-, line
-, line'
 ) where
 
 import           Control.Applicative (liftA2)
@@ -136,6 +136,15 @@ infixr 6 </>
 
 -- Symbols
 
+space :: Printer p => p
+space = fromDoc P.space
+
+line :: Printer p => p
+line = fromDoc P.line
+
+line' :: Printer p => p
+line' = fromDoc P.line'
+
 lparen, rparen :: Printer p => p
 lparen = fromDoc P.lparen
 rparen = fromDoc P.rparen
@@ -147,15 +156,6 @@ rbracket = fromDoc P.rbracket
 lbrace, rbrace :: Printer p => p
 lbrace = fromDoc P.lbrace
 rbrace = fromDoc P.rbrace
-
-space :: Printer p => p
-space = fromDoc P.space
-
-line :: Printer p => p
-line = fromDoc P.line
-
-line' :: Printer p => p
-line' = fromDoc P.line'
 
 
 instance Printer (P.Doc ann) where
