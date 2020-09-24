@@ -41,6 +41,7 @@ library
   exposed-modules:
     Silkscreen
     Silkscreen.Prec
+    Silkscreen.Printer.Prec
     Silkscreen.Rainbow
   build-depends:
     , base ^>= 4.14
