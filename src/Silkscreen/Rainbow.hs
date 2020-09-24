@@ -34,7 +34,7 @@ incrNesting :: NestingPrinter p => p -> p
 incrNesting = localNesting succ
 
 encloseNesting :: NestingPrinter p => p -> p -> p -> p
-encloseNesting l r = enclose l r . incrNesting
+encloseNesting l r = enclose (applyNesting l) (applyNesting r) . incrNesting
 
 
 runRainbow :: Handler -> Int -> Rainbow ann a -> a
@@ -70,9 +70,9 @@ instance (Printer a, Ann a ~ ann) => Printer (Rainbow ann a) where
   align = fmap align
   nest i = fmap (nest i)
 
-  parens   = encloseNesting (applyNesting lparen)   (applyNesting rparen)
-  brackets = encloseNesting (applyNesting lbracket) (applyNesting rbracket)
-  braces   = encloseNesting (applyNesting lbrace)   (applyNesting rbrace)
+  parens   = encloseNesting lparen   rparen
+  brackets = encloseNesting lbracket rbracket
+  braces   = encloseNesting lbrace   rbrace
 
 instance (Printer a, Ann a ~ ann) => NestingPrinter (Rainbow ann a) where
   askingNesting f = Rainbow (\ as -> runRainbow as <*> f)
