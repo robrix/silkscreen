@@ -1,7 +1,9 @@
+{-# LANGUAGE TypeFamilies #-}
 module Silkscreen.Prec
-( PrecPrinter
+( PrecPrinter(..)
 ) where
 
 import Silkscreen
 
 class Printer p => PrecPrinter p where
+  type Level p
