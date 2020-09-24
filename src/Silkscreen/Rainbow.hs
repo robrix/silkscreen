@@ -39,3 +39,6 @@ instance Printer a => Printer (Rainbow a) where
   parens   = fmap parens
   brackets = fmap brackets
   braces   = fmap braces
+
+instance Printer a => RainbowPrinter (Rainbow a) where
+  incrNesting p = Rainbow (runRainbow p . succ)
