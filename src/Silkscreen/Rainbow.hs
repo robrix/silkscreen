@@ -1,5 +1,6 @@
 module Silkscreen.Rainbow
-( RainbowPrinter(..)
+( -- * Printing with nesting levels
+  RainbowPrinter(..)
 ) where
 
 import Silkscreen
