@@ -11,6 +11,7 @@ module Silkscreen.Prec
 , rightAssoc
 , infix_
   -- * Prec
+, runPrec
 , Prec(..)
 ) where
 
@@ -91,5 +92,8 @@ instance PrecPrinter b => PrecPrinter (a -> b) where
 
 
 -- Prec
+
+runPrec :: level -> Prec level a -> a
+runPrec level (Prec run) = run level
 
 newtype Prec level a = Prec (level -> a)
