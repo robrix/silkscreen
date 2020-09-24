@@ -53,3 +53,10 @@ setPrec = localPrec . const
 -- | Set a constant precedence, parenthesizing in higher-precedence contexts.
 prec :: (PrecPrinter p, Ord (Level p)) => Level p -> p -> p
 prec l d = askingPrec $ \ l' -> setPrec l (parensIf (l' > l) d)
+
+
+instance PrecPrinter b => PrecPrinter (a -> b) where
+  type Level (a -> b) = Level b
+
+  askingPrec f = askingPrec . flip f
+  localPrec f p = localPrec f . p
