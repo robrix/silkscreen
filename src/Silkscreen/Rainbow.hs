@@ -8,6 +8,8 @@ module Silkscreen.Rainbow
   -- * Rainbow parentheses
 , runRainbow
 , Rainbow(..)
+  -- * Re-exports
+, module Silkscreen
 ) where
 
 import Silkscreen
