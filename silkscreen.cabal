@@ -40,7 +40,7 @@ library
   import: common
   exposed-modules:
     Silkscreen
-    Silkscreen.Prec
+    Silkscreen.Precedence
     Silkscreen.Printer.Prec
     Silkscreen.Rainbow
   build-depends:

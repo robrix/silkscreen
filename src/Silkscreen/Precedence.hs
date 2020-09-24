@@ -1,6 +1,6 @@
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE TypeFamilies #-}
-module Silkscreen.Prec
+module Silkscreen.Precedence
 ( -- * Printing with precedence
   PrecedencePrinter(..)
 , setPrec

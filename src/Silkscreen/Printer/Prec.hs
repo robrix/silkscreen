@@ -5,11 +5,11 @@ module Silkscreen.Printer.Prec
   runPrec
 , Prec(..)
   -- * Re-exports
-, module Silkscreen.Prec
+, module Silkscreen.Precedence
 ) where
 
 import Control.Applicative (liftA2)
-import Silkscreen.Prec
+import Silkscreen.Precedence
 
 -- Prec
 
