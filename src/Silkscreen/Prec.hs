@@ -10,8 +10,6 @@ module Silkscreen.Prec
 , leftAssoc
 , rightAssoc
 , infix_
-, infixl_
-, infixr_
 ) where
 
 import Silkscreen
@@ -76,12 +74,6 @@ rightAssoc pl pr op l r = prec pr $ prec pl l `op` r
 
 infix_ :: (PrecPrinter p, Ord (Level p)) => Level p -> Level p -> Level p -> (p -> p -> p) -> (p -> p -> p)
 infix_ p pl pr sep l r = prec p (prec pl l `sep` prec pr r)
-
-infixl_ :: (PrecPrinter p, Ord (Level p)) => Level p -> Level p -> (p -> p -> p) -> (p -> p -> p)
-infixl_ pl pr sep l r = prec pl (l `sep` prec pr r)
-
-infixr_ :: (PrecPrinter p, Ord (Level p)) => Level p -> Level p -> (p -> p -> p) -> (p -> p -> p)
-infixr_ pl pr sep l r = prec pr (prec pl l `sep` r)
 
 
 instance PrecPrinter b => PrecPrinter (a -> b) where
