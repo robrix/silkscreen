@@ -44,7 +44,6 @@ class Monoid p => Printer p where
   --
   -- We provide this as a type family instead of defining 'Printer' over kind @Type -> Type@ in order to allow instances to constrain annotations.
   type Ann p
-  type Doc p
 
   -- | Lift a 'P.Doc' to a 'Printer'.
   fromDoc :: P.Doc (Ann p) -> p
@@ -201,7 +200,6 @@ colon = fromDoc P.colon
 
 instance Printer (P.Doc ann) where
   type Ann (P.Doc ann) = ann
-  type Doc (P.Doc ann) = P.Doc ann
 
   fromDoc = id
   mapDoc = id
@@ -219,9 +217,8 @@ instance Printer (P.Doc ann) where
   braces = P.braces
 
 
-instance (Printer a, Printer b, Ann a ~ Ann b, Doc a ~ Doc b) => Printer (a, b) where
+instance (Printer a, Printer b, Ann a ~ Ann b) => Printer (a, b) where
   type Ann (a, b) = Ann b
-  type Doc (a, b) = Doc b
 
   fromDoc d = (fromDoc d, fromDoc d)
   mapDoc f (a, b) = (mapDoc f a, mapDoc f b)
@@ -241,7 +238,6 @@ instance (Printer a, Printer b, Ann a ~ Ann b, Doc a ~ Doc b) => Printer (a, b) 
 
 instance Printer b => Printer (a -> b) where
   type Ann (a -> b) = Ann b
-  type Doc (a -> b) = Doc b
 
   fromDoc = pure . fromDoc
   mapDoc = fmap . mapDoc

@@ -45,7 +45,6 @@ instance Show a => Show (Rainbow a) where
 
 instance Printer a => Printer (Rainbow a) where
   type Ann (Rainbow a) = Ann a
-  type Doc (Rainbow a) = Doc a
 
   fromDoc = liftR0 . fromDoc
   mapDoc = liftR1 . mapDoc
