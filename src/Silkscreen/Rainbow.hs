@@ -1,5 +1,4 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
-{-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE TypeFamilies #-}
 module Silkscreen.Rainbow
 ( -- * Printing with nesting levels
@@ -35,12 +34,10 @@ encloseNesting :: NestingPrinter p => p -> p -> p -> p
 encloseNesting l r = enclose (applyNesting l) (applyNesting r) . incrNesting
 
 
-runRainbow :: Handler -> Int -> Rainbow a -> a
+runRainbow :: (Int -> a -> a) -> Int -> Rainbow a -> a
 runRainbow h l (Rainbow run) = run h l
 
-type Handler = forall p . Printer p => Int -> p -> p
-
-newtype Rainbow a = Rainbow (Handler -> Int -> a)
+newtype Rainbow a = Rainbow ((Int -> a -> a) -> Int -> a)
   deriving (Monoid, Semigroup)
 
 instance Show a => Show (Rainbow a) where
