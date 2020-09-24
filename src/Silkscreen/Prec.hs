@@ -101,6 +101,9 @@ runPrec level (Prec run) = run level
 newtype Prec level a = Prec (level -> a)
   deriving (Applicative, Functor, Monad, Monoid, Semigroup)
 
+instance (Bounded level, Show a) => Show (Prec level a) where
+  showsPrec p = showsPrec p . runPrec minBound
+
 instance (Bounded level, Printer a) => Printer (Prec level a) where
   type Ann (Prec level a) = Ann a
 
