@@ -41,5 +41,8 @@ class Printer p => PrecPrinter p where
   -- | Locally change the 'Level' in a printer.
   localPrec :: (Level p -> Level p) -> p -> p
 
+-- | Set a constant precedence.
+--
+-- This function does not insert parentheses, and thus should be used when inserting parentheses or otherwise resetting the precedence level.
 setPrec :: PrecPrinter p => Level p -> p -> p
 setPrec = localPrec . const
