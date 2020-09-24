@@ -43,6 +43,7 @@ class Monoid p => Printer p where
   --
   -- Overloadable to support e.g. rainbow braces.
   braces :: p -> p
+  braces = enclose lbrace rbrace
 
 
 -- Non-primitive combinators
