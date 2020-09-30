@@ -15,6 +15,7 @@ module Silkscreen
 , concatWith
 , hsep
 , vsep
+, fillSep
 , sep
 , hcat
 , vcat
@@ -128,6 +129,9 @@ hsep = concatWith (<+>)
 
 vsep :: Printer p => [p] -> p
 vsep = concatWith (</>)
+
+fillSep :: Printer p => [p] -> p
+fillSep = concatWith (surround softline)
 
 sep :: Printer p => [p] -> p
 sep = group . vsep
