@@ -15,6 +15,7 @@ module Silkscreen
 , concatWith
 , hcat
 , vcat
+, fillCat
 , cat
 , vsep
 , sep
@@ -125,6 +126,9 @@ hcat = mconcat
 
 vcat :: Printer p => [p] -> p
 vcat = concatWith (surround line')
+
+fillCat :: Printer p => [p] -> p
+fillCat = concatWith (surround softline')
 
 cat :: Printer p => [p] -> p
 cat = group . vcat
