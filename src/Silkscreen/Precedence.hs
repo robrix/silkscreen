@@ -46,45 +46,38 @@ class Printer p => PrecedencePrinter p where
   type Level p
 
   -- | Print informed by the current 'Level'.
-  askingPrec :: (Level p -> p) -> p
+  askingPrec :: (Level p -> p a) -> p a
 
   -- | Locally change the 'Level' in a printer.
-  localPrec :: (Level p -> Level p) -> p -> p
+  localPrec :: (Level p -> Level p) -> p a -> p a
 
 -- | Set a constant precedence.
 --
 -- This function does not insert parentheses, and thus should be used when inserting parentheses or otherwise resetting the precedence level.
-setPrec :: PrecedencePrinter p => Level p -> p -> p
+setPrec :: PrecedencePrinter p => Level p -> p a -> p a
 setPrec = localPrec . const
 
 -- | Set a constant precedence, parenthesizing in higher-precedence contexts.
-prec :: (PrecedencePrinter p, Ord (Level p)) => Level p -> p -> p
+prec :: (PrecedencePrinter p, Ord (Level p)) => Level p -> p a -> p a
 prec l d = askingPrec $ \ l' -> setPrec l (parensIf (l' > l) d)
 
 
 -- | Make an associative infix combinator at the given level.
-assoc :: (PrecedencePrinter p, Ord (Level p)) => Level p -> (p -> p -> p) -> (p -> p -> p)
+assoc :: (PrecedencePrinter p, Ord (Level p)) => Level p -> (p a -> p a -> p a) -> (p a -> p a -> p a)
 assoc pout = infix_ pout id id
 
 -- | Make a non-associative infix combinator at the given levels for the operator itself and its operands.
-nonAssoc :: (PrecedencePrinter p, Ord (Level p)) => Level p -> Level p -> (p -> p -> p) -> (p -> p -> p)
+nonAssoc :: (PrecedencePrinter p, Ord (Level p)) => Level p -> Level p -> (p a -> p a -> p a) -> (p a -> p a -> p a)
 nonAssoc pout pin = infix_ pout (prec pin) (prec pin)
 
 -- | Make a left-associative infix combinator at the given levels for the operator itself and its right operand.
-leftAssoc :: (PrecedencePrinter p, Ord (Level p)) => Level p -> Level p -> (p -> p -> p) -> (p -> p -> p)
+leftAssoc :: (PrecedencePrinter p, Ord (Level p)) => Level p -> Level p -> (p a -> p a -> p a) -> (p a -> p a -> p a)
 leftAssoc pl pr = infix_ pl id (prec pr)
 
 -- | Make a right-associative infix combinator at the given levels for the operator itself and its left operand.
-rightAssoc :: (PrecedencePrinter p, Ord (Level p)) => Level p -> Level p -> (p -> p -> p) -> (p -> p -> p)
+rightAssoc :: (PrecedencePrinter p, Ord (Level p)) => Level p -> Level p -> (p a -> p a -> p a) -> (p a -> p a -> p a)
 rightAssoc pr pl = infix_ pr (prec pl) id
 
 -- | Make an infix combinator at the given level for the operator itself, applying functions to either operand.
-infix_ :: (PrecedencePrinter p, Ord (Level p)) => Level p -> (p -> p) -> (p -> p) -> (p -> p -> p) -> (p -> p -> p)
+infix_ :: (PrecedencePrinter p, Ord (Level p)) => Level p -> (p a -> p a) -> (p a -> p a) -> (p a -> p a -> p a) -> (p a -> p a -> p a)
 infix_ p fl fr op l r = prec p $ fl l `op` fr r
-
-
-instance PrecedencePrinter b => PrecedencePrinter (a -> b) where
-  type Level (a -> b) = Level b
-
-  askingPrec f = askingPrec . flip f
-  localPrec f p = localPrec f . p

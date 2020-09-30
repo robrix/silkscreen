@@ -49,6 +49,7 @@ library
   build-depends:
     , base ^>= 4.14
     , prettyprinter ^>= 1.7
+    , transformers
   hs-source-dirs: src
 
 
