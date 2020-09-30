@@ -13,6 +13,7 @@ module Silkscreen
 , align
 , nest
 , concatWith
+, hcat
 , vcat
 , cat
 , vsep
@@ -118,6 +119,9 @@ concatWith :: (Monoid p, Foldable t) => (p -> p -> p) -> t p -> p
 concatWith (<>) ds
   | null ds   = mempty
   | otherwise = foldr1 (<>) ds
+
+hcat :: Printer p => [p] -> p
+hcat = mconcat
 
 vcat :: Printer p => [p] -> p
 vcat = concatWith (surround line')
