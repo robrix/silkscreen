@@ -13,6 +13,7 @@ module Silkscreen
 , align
 , nest
 , concatWith
+, hsep
 , vsep
 , sep
 , hcat
@@ -121,6 +122,9 @@ concatWith (<>) ds
   | null ds   = mempty
   | otherwise = foldr1 (<>) ds
 
+
+hsep :: Printer p => [p] -> p
+hsep = concatWith (<+>)
 
 vsep :: Printer p => [p] -> p
 vsep = concatWith (</>)
