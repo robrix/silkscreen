@@ -32,6 +32,7 @@ module Silkscreen
 , line'
 , softline
 , softline'
+, hardline
 , lparen
 , rparen
 , lbracket
@@ -201,6 +202,9 @@ softline = liftDoc0 P.softline
 
 softline' :: Printer p => p
 softline' = liftDoc0 P.softline'
+
+hardline :: Printer p => p
+hardline = liftDoc0 P.hardline
 
 lparen, rparen :: Printer p => p
 lparen = liftDoc0 P.lparen
