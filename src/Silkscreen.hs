@@ -13,12 +13,12 @@ module Silkscreen
 , align
 , nest
 , concatWith
+, vsep
+, sep
 , hcat
 , vcat
 , fillCat
 , cat
-, vsep
-, sep
 , enclose
 , encloseSep
 , list
@@ -121,6 +121,14 @@ concatWith (<>) ds
   | null ds   = mempty
   | otherwise = foldr1 (<>) ds
 
+
+vsep :: Printer p => [p] -> p
+vsep = concatWith (</>)
+
+sep :: Printer p => [p] -> p
+sep = group . vsep
+
+
 hcat :: Printer p => [p] -> p
 hcat = mconcat
 
@@ -132,12 +140,6 @@ fillCat = concatWith (surround softline')
 
 cat :: Printer p => [p] -> p
 cat = group . vcat
-
-vsep :: Printer p => [p] -> p
-vsep = concatWith (</>)
-
-sep :: Printer p => [p] -> p
-sep = group . vsep
 
 
 -- | @'enclose' l r x@ wraps @x@ in @l@ and @r@.
