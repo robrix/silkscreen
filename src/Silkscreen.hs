@@ -12,6 +12,7 @@ module Silkscreen
 , flatAlt
 , align
 , hang
+, indent
 , nest
 , concatWith
 , hsep
@@ -117,6 +118,10 @@ align = liftDoc1 P.align
 -- | Indent following lines in the argument to the current column + some delta.
 hang :: Printer p => Int -> p -> p
 hang = liftDoc1 . P.hang
+
+-- | Indent lines in the argument to the current column + some delta.
+indent :: Printer p => Int -> p -> p
+indent = liftDoc1 . P.indent
 
 
 -- | @'nest' i p@ changes the indentation level for new lines in @p@ by @i@.
