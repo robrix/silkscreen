@@ -79,6 +79,14 @@ class Monoid p => Printer p where
   -- | Lift a binary function on 'P.Doc' to a 'Printer'.
   liftDoc2 :: (P.Doc (Ann p) -> P.Doc (Ann p) -> P.Doc (Ann p)) -> (p -> p -> p)
 
+  -- | @'enclosing' l r x@ wraps @x@ in @l@ and @r@.
+  --
+  -- Distinct from 'enclose' (which is not overloaded) so that 'enclose' remains available as a convenience for appending documents without whatever extra semantics are implied by any particular 'Printer' (rainbow precedences, resetting precedence, etc.).
+  --
+  -- Overloadable to support e.g. rainbow parentheses.
+  enclosing :: p -> p -> p -> p
+  enclosing = enclose
+
 
   -- | Parenthesize the argument.
   --
@@ -310,6 +318,8 @@ instance Printer (P.Doc ann) where
   liftDoc1 = id
   liftDoc2 = id
 
+  enclosing = P.enclose
+
   parens = P.parens
   brackets = P.brackets
   braces = P.braces
@@ -327,6 +337,8 @@ instance (Printer a, Printer b, Ann a ~ Ann b) => Printer (a, b) where
   liftDoc1 f (a, b) = (liftDoc1 f a, liftDoc1 f b)
   liftDoc2 f (a1, b1) (a2, b2) = (liftDoc2 f a1 a2, liftDoc2 f b1 b2)
 
+  enclosing (l1, l2) (r1, r2) (x1, x2) = (enclosing l1 r1 x1, enclosing l2 r2 x2)
+
   parens (a, b) = (parens a, parens b)
   brackets (a, b) = (brackets a, brackets b)
   braces (a, b) = (braces a, braces b)
@@ -342,6 +354,8 @@ instance Printer b => Printer (a -> b) where
   liftDoc0 = pure . liftDoc0
   liftDoc1 = fmap . liftDoc1
   liftDoc2 = liftA2 . liftDoc2
+
+  enclosing l r x = enclosing <$> l <*> r <*> x
 
   parens = fmap parens
   brackets = fmap brackets

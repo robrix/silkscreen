@@ -30,6 +30,8 @@ instance (Bounded level, Printer a) => Printer (Prec level a) where
   liftDoc1 = fmap . liftDoc1
   liftDoc2 = liftA2 . liftDoc2
 
+  enclosing l r x = enclose <$> l <*> r <*> setPrec minBound x
+
   parens   = fmap parens   . setPrec minBound
   brackets = fmap brackets . setPrec minBound
   braces   = fmap braces   . setPrec minBound

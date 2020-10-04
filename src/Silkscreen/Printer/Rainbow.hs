@@ -27,6 +27,8 @@ instance Printer a => Printer (Rainbow a) where
   liftDoc1 f p = Rainbow $ \ h l -> liftDoc1 f (runRainbow h l p)
   liftDoc2 f p1 p2 = Rainbow $ \ h l -> liftDoc2 f (runRainbow h l p1) (runRainbow h l p2)
 
+  enclosing = encloseNesting
+
   parens   = encloseNesting lparen   rparen
   brackets = encloseNesting lbracket rbracket
   braces   = encloseNesting lbrace   rbrace
