@@ -313,6 +313,7 @@ instance Printer (P.Doc ann) where
   parens = P.parens
   brackets = P.brackets
   braces = P.braces
+  angles = P.angles
 
   column    = P.column
   nesting   = P.nesting
