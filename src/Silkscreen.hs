@@ -23,6 +23,7 @@ module Silkscreen
 , vcat
 , fillCat
 , cat
+, punctuate
 , enclose
 , encloseSep
 , list
@@ -167,6 +168,14 @@ fillCat = concatWith (surround softline')
 
 cat :: Printer p => [p] -> p
 cat = group . vcat
+
+
+punctuate :: Printer p => p -> [p] -> [p]
+punctuate s = go
+  where
+  go []     = []
+  go [x]    = [x]
+  go (x:xs) = x <> s : go xs
 
 
 -- | @'enclose' l r x@ wraps @x@ in @l@ and @r@.
