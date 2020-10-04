@@ -52,6 +52,8 @@ module Silkscreen
 , rbrace
 , langle
 , rangle
+, squote
+, dquote
 , comma
 , colon
   -- * Re-exports
@@ -303,6 +305,10 @@ rbrace = liftDoc0 P.rbrace
 langle, rangle :: Printer p => p
 langle = liftDoc0 P.langle
 rangle = liftDoc0 P.rangle
+
+squote, dquote :: Printer p => p
+squote = liftDoc0 P.squote
+dquote = liftDoc0 P.dquote
 
 comma :: Printer p => p
 comma = liftDoc0 P.comma
