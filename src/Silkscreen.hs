@@ -91,6 +91,12 @@ class Monoid p => Printer p where
   braces :: p -> p
   braces = enclose lbrace rbrace
 
+  -- | Wrap the argument in braces.
+  --
+  -- Overloadable to support e.g. rainbow angle brackets.
+  angles :: p -> p
+  angles = enclose langle rangle
+
 
 -- Non-primitive combinators
 
