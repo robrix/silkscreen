@@ -90,6 +90,12 @@ class Monoid p => Printer p where
   enclosing = enclose
 
 
+  -- | Wrap the argument in single quotes.
+  --
+  -- The default definition is given in terms of 'enclosing'. Overloadable to support e.g. rainbow quotes (or disabling of same, if desired).
+  squotes :: p -> p
+  squotes = enclosing squote squote
+
   -- | Parenthesize the argument.
   --
   -- The default definition is given in terms of 'enclosing'. Overloadable to support e.g. rainbow parentheses (or disabling of same, if desired).
@@ -326,6 +332,7 @@ instance Printer (P.Doc ann) where
 
   enclosing = P.enclose
 
+  squotes = P.squotes
   parens = P.parens
   brackets = P.brackets
   braces = P.braces
@@ -345,6 +352,7 @@ instance (Printer a, Printer b, Ann a ~ Ann b) => Printer (a, b) where
 
   enclosing (l1, l2) (r1, r2) (x1, x2) = (enclosing l1 r1 x1, enclosing l2 r2 x2)
 
+  squotes (a, b) = (squotes a, squotes b)
   parens (a, b) = (parens a, parens b)
   brackets (a, b) = (brackets a, brackets b)
   braces (a, b) = (braces a, braces b)
@@ -363,6 +371,7 @@ instance Printer b => Printer (a -> b) where
 
   enclosing l r x = enclosing <$> l <*> r <*> x
 
+  squotes = fmap squotes
   parens = fmap parens
   brackets = fmap brackets
   braces = fmap braces
