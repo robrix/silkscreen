@@ -42,7 +42,6 @@ library
     Silkscreen
     Silkscreen.Nesting
     Silkscreen.Precedence
-    Silkscreen.Printer.Fresh
     Silkscreen.Printer.Prec
     Silkscreen.Printer.Rainbow
   build-depends:
