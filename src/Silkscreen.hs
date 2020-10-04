@@ -108,7 +108,7 @@ class Monoid p => Printer p where
   braces :: p -> p
   braces = enclosing lbrace rbrace
 
-  -- | Wrap the argument in braces.
+  -- | Wrap the argument in angle brackets.
   --
   -- The default definition is given in terms of 'enclosing'. Overloadable to support e.g. rainbow angle brackets (or disabling of same, if desired).
   angles :: p -> p
