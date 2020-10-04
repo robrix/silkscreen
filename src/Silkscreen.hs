@@ -54,8 +54,14 @@ module Silkscreen
 , rangle
 , squote
 , dquote
+, semi
 , comma
 , colon
+, dot
+, slash
+, backslash
+, equals
+, pipe
   -- * Re-exports
 , P.Pretty
 , P.PageWidth(..)
@@ -322,9 +328,15 @@ squote, dquote :: Printer p => p
 squote = liftDoc0 P.squote
 dquote = liftDoc0 P.dquote
 
-comma, colon :: Printer p => p
+semi, comma, colon, dot, slash, backslash, equals, pipe :: Printer p => p
+semi = liftDoc0 P.semi
 comma = liftDoc0 P.comma
 colon = liftDoc0 P.colon
+dot = liftDoc0 P.dot
+slash = liftDoc0 P.slash
+backslash = liftDoc0 P.backslash
+equals = liftDoc0 P.equals
+pipe = liftDoc0 P.pipe
 
 
 instance Printer (P.Doc ann) where
