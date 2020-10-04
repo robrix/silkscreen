@@ -34,6 +34,7 @@ instance (Bounded level, Printer a) => Printer (Prec level a) where
   parens   = fmap parens   . setPrec minBound
   brackets = fmap brackets . setPrec minBound
   braces   = fmap braces   . setPrec minBound
+  angles   = fmap angles   . setPrec minBound
 
 instance (Bounded level, Printer a) => PrecedencePrinter (Prec level a) where
   type Level (Prec level a) = level

@@ -31,6 +31,7 @@ instance Printer a => Printer (Rainbow a) where
   parens   = encloseNesting lparen   rparen
   brackets = encloseNesting lbracket rbracket
   braces   = encloseNesting lbrace   rbrace
+  angles   = encloseNesting langle   rangle
 
 instance Printer a => NestingPrinter (Rainbow a) where
   askingNesting f = Rainbow (\ as -> runRainbow as <*> f)

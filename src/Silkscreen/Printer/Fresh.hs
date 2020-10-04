@@ -32,6 +32,7 @@ instance Printer p => Printer (Fresh p) where
   parens = fmap parens
   brackets = fmap brackets
   braces = fmap braces
+  angles = fmap angles
 
 instance Printer p => FreshPrinter (Fresh p) where
   bind f = Fresh $ \ v -> runFresh (succ v) (f v)
