@@ -35,6 +35,10 @@ instance (Bounded level, Printer a) => Printer (Prec level a) where
   braces   = fmap braces   . setPrec minBound
   angles   = fmap angles   . setPrec minBound
 
+  column    f = Prec $ \ l -> column    (runPrec l . f)
+  nesting   f = Prec $ \ l -> nesting   (runPrec l . f)
+  pageWidth f = Prec $ \ l -> pageWidth (runPrec l . f)
+
 instance (Bounded level, Printer a) => PrecedencePrinter (Prec level a) where
   type Level (Prec level a) = level
 

@@ -24,6 +24,7 @@ module Silkscreen
 , fillCat
 , cat
 , punctuate
+, width
 , enclose
 , encloseSep
 , list
@@ -52,6 +53,7 @@ module Silkscreen
 , colon
   -- * Re-exports
 , P.Pretty
+, P.PageWidth(..)
 ) where
 
 import           Control.Applicative (liftA2)
@@ -97,6 +99,13 @@ class Monoid p => Printer p where
   -- Overloadable to support e.g. rainbow angle brackets.
   angles :: p -> p
   angles = enclose langle rangle
+
+
+  column :: (Int -> p) -> p
+
+  nesting :: (Int -> p) -> p
+
+  pageWidth :: (P.PageWidth -> p) -> p
 
 
 -- Non-primitive combinators
@@ -176,6 +185,10 @@ punctuate s = go
   go []     = []
   go [x]    = [x]
   go (x:xs) = x <> s : go xs
+
+
+width :: Printer p => p -> (Int -> p) -> p
+width p f = column $ \ start -> p <> column (\ end -> f (end - start))
 
 
 -- | @'enclose' l r x@ wraps @x@ in @l@ and @r@.
@@ -286,6 +299,10 @@ instance Printer (P.Doc ann) where
   brackets = P.brackets
   braces = P.braces
 
+  column    = P.column
+  nesting   = P.nesting
+  pageWidth = P.pageWidth
+
 
 instance (Printer a, Printer b, Ann a ~ Ann b) => Printer (a, b) where
   type Ann (a, b) = Ann b
@@ -298,6 +315,10 @@ instance (Printer a, Printer b, Ann a ~ Ann b) => Printer (a, b) where
   brackets (a, b) = (brackets a, brackets b)
   braces (a, b) = (braces a, braces b)
 
+  column    f = (column    (fst . f), column    (snd . f))
+  nesting   f = (nesting   (fst . f), nesting   (snd . f))
+  pageWidth f = (pageWidth (fst . f), pageWidth (snd . f))
+
 
 instance Printer b => Printer (a -> b) where
   type Ann (a -> b) = Ann b
@@ -309,3 +330,7 @@ instance Printer b => Printer (a -> b) where
   parens = fmap parens
   brackets = fmap brackets
   braces = fmap braces
+
+  column    f = column    . flip f
+  nesting   f = nesting   . flip f
+  pageWidth f = pageWidth . flip f

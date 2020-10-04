@@ -32,6 +32,10 @@ instance Printer a => Printer (Rainbow a) where
   braces   = encloseNesting lbrace   rbrace
   angles   = encloseNesting langle   rangle
 
+  column    f = Rainbow $ \ h l -> column    (runRainbow h l . f)
+  nesting   f = Rainbow $ \ h l -> nesting   (runRainbow h l . f)
+  pageWidth f = Rainbow $ \ h l -> pageWidth (runRainbow h l . f)
+
 instance Printer a => NestingPrinter (Rainbow a) where
   askingNesting f = Rainbow (\ as -> runRainbow as <*> f)
   localNesting f (Rainbow p) = Rainbow (\ as -> p as . f)
