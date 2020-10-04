@@ -90,27 +90,27 @@ class Monoid p => Printer p where
 
   -- | Parenthesize the argument.
   --
-  -- Overloadable to support e.g. rainbow parentheses.
+  -- The default definition is given in terms of 'enclosing'. Overloadable to support e.g. rainbow parentheses (or disabling of same, if desired).
   parens :: p -> p
-  parens = enclose lparen rparen
+  parens = enclosing lparen rparen
 
   -- | Wrap the argument in brackets.
   --
-  -- Overloadable to support e.g. rainbow brackets.
+  -- The default definition is given in terms of 'enclosing'. Overloadable to support e.g. rainbow brackets (or disabling of same, if desired).
   brackets :: p -> p
-  brackets = enclose lbracket rbracket
+  brackets = enclosing lbracket rbracket
 
   -- | Wrap the argument in braces.
   --
-  -- Overloadable to support e.g. rainbow braces.
+  -- The default definition is given in terms of 'enclosing'. Overloadable to support e.g. rainbow braces (or disabling of same, if desired).
   braces :: p -> p
-  braces = enclose lbrace rbrace
+  braces = enclosing lbrace rbrace
 
   -- | Wrap the argument in braces.
   --
-  -- Overloadable to support e.g. rainbow angle brackets.
+  -- The default definition is given in terms of 'enclosing'. Overloadable to support e.g. rainbow angle brackets (or disabling of same, if desired).
   angles :: p -> p
-  angles = enclose langle rangle
+  angles = enclosing langle rangle
 
 
   column :: (Int -> p) -> p
