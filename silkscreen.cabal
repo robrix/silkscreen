@@ -1,7 +1,7 @@
 cabal-version:       2.2
 
 name:                silkscreen
-version:             0.0.0.0
+version:             0.0.0.1
 synopsis:            Prettyprinting transformers.
 description:         Prettyprinting transformers for rainbow parens, precedence, etc.
 homepage:            https://github.com/robrix/silkscreen
