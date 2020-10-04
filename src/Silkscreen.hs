@@ -322,10 +322,8 @@ squote, dquote :: Printer p => p
 squote = liftDoc0 P.squote
 dquote = liftDoc0 P.dquote
 
-comma :: Printer p => p
+comma, colon :: Printer p => p
 comma = liftDoc0 P.comma
-
-colon :: Printer p => p
 colon = liftDoc0 P.colon
 
 
