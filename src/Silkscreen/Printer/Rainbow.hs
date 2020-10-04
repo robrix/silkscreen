@@ -8,7 +8,6 @@ module Silkscreen.Printer.Rainbow
 , module Silkscreen.Nesting
 ) where
 
-import Silkscreen.Fresh
 import Silkscreen.Nesting
 import Silkscreen.Precedence
 
@@ -44,6 +43,3 @@ instance PrecedencePrinter p => PrecedencePrinter (Rainbow p) where
   askingPrec f = Rainbow $ \ h l -> askingPrec (runRainbow h l . f)
 
   localPrec f (Rainbow p) = Rainbow $ \ h -> localPrec f . p h
-
-instance FreshPrinter p => FreshPrinter (Rainbow p) where
-  bind f = Rainbow $ \ h l -> bind (runRainbow h l . f)
