@@ -29,11 +29,6 @@ instance Printer a => Printer (Rainbow a) where
 
   enclosing = encloseNesting
 
-  parens   = encloseNesting lparen   rparen
-  brackets = encloseNesting lbracket rbracket
-  braces   = encloseNesting lbrace   rbrace
-  angles   = encloseNesting langle   rangle
-
   column    f = Rainbow $ \ h l -> column    (runRainbow h l . f)
   nesting   f = Rainbow $ \ h l -> nesting   (runRainbow h l . f)
   pageWidth f = Rainbow $ \ h l -> pageWidth (runRainbow h l . f)

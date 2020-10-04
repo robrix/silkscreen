@@ -32,11 +32,6 @@ instance (Bounded level, Printer a) => Printer (Prec level a) where
 
   enclosing l r x = enclose <$> l <*> r <*> setPrec minBound x
 
-  parens   = fmap parens   . setPrec minBound
-  brackets = fmap brackets . setPrec minBound
-  braces   = fmap braces   . setPrec minBound
-  angles   = fmap angles   . setPrec minBound
-
   column    f = Prec $ \ l -> column    (runPrec l . f)
   nesting   f = Prec $ \ l -> nesting   (runPrec l . f)
   pageWidth f = Prec $ \ l -> pageWidth (runPrec l . f)
