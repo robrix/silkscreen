@@ -356,6 +356,7 @@ instance (Printer a, Printer b, Ann a ~ Ann b) => Printer (a, b) where
   parens (a, b) = (parens a, parens b)
   brackets (a, b) = (brackets a, brackets b)
   braces (a, b) = (braces a, braces b)
+  angles (a, b) = (angles a, angles b)
 
   column    f = (column    (fst . f), column    (snd . f))
   nesting   f = (nesting   (fst . f), nesting   (snd . f))
@@ -375,6 +376,7 @@ instance Printer b => Printer (a -> b) where
   parens = fmap parens
   brackets = fmap brackets
   braces = fmap braces
+  angles = fmap angles
 
   column    f = column    . flip f
   nesting   f = nesting   . flip f
