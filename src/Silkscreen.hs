@@ -7,6 +7,7 @@ module Silkscreen
   Printer(..)
   -- * Combinators
 , pretty
+, prettyList
 , annotate
 , group
 , flatAlt
@@ -145,6 +146,9 @@ class Monoid p => Printer p where
 -- | Pretty-print a value using the 'P.Pretty' instance for its type.
 pretty :: (Printer p, P.Pretty t) => t -> p
 pretty = liftDoc0 . P.pretty
+
+prettyList :: (Printer p, P.Pretty t) => [t] -> p
+prettyList = liftDoc0 . P.prettyList
 
 
 -- | Annotate a 'Printer' with an @'Ann' p@.
