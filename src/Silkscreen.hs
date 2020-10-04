@@ -26,6 +26,7 @@ module Silkscreen
 , punctuate
 , width
 , fill
+, fillBreak
 , enclose
 , encloseSep
 , list
@@ -195,6 +196,13 @@ width p f = column $ \ start -> p <> column (\ end -> f (end - start))
 
 fill :: Printer p => Int -> p -> p
 fill n p = width p $ \ w -> stimes (n - w) space
+
+fillBreak :: Printer p => Int -> p -> p
+fillBreak f x = width x go
+  where
+  go w
+    | w > f = nest f line'
+    | otherwise = stimes (f - w) space
 
 
 -- | @'enclose' l r x@ wraps @x@ in @l@ and @r@.
