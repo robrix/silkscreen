@@ -1,5 +1,5 @@
 {-# LANGUAGE TypeFamilies #-}
--- | Silkscreen is a library of pretty-printing transformers built around the @prettyprinter@ package. This module defines the core 'Printer' abstraction and a few instances.
+-- | Silkscreen is a library of pretty-printing transformers built around the <https://hackage.haskell.org/package/prettyprinter prettyprinter> package. This module defines the core 'Printer' abstraction and a few instances.
 --
 -- More documentation can be found in "Prettyprinter".
 module Silkscreen
