@@ -27,7 +27,7 @@ module Silkscreen
 , width
 , fill
 , fillBreak
-, plural
+, P.plural
 , enclose
 , encloseSep
 , list
@@ -204,11 +204,6 @@ fillBreak f x = width x go
   go w
     | w > f = nest f line'
     | otherwise = stimes (f - w) space
-
-plural :: (Num n, Eq n) => p -> p -> n -> p
-plural _1 _n n
-  | n == 1    = _1
-  | otherwise = _n
 
 
 -- | @'enclose' l r x@ wraps @x@ in @l@ and @r@.
