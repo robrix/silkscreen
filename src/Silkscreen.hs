@@ -25,6 +25,7 @@ module Silkscreen
 , cat
 , punctuate
 , width
+, fill
 , enclose
 , encloseSep
 , list
@@ -57,6 +58,7 @@ module Silkscreen
 ) where
 
 import           Control.Applicative (liftA2)
+import           Data.Semigroup (stimes)
 import qualified Prettyprinter as P
 
 -- | A 'Printer' abstracts pretty-printing to allow the composition of behaviours such as e.g. rainbow parentheses, precedence handling, and so forth.
@@ -189,6 +191,10 @@ punctuate s = go
 
 width :: Printer p => p -> (Int -> p) -> p
 width p f = column $ \ start -> p <> column (\ end -> f (end - start))
+
+
+fill :: Printer p => Int -> p -> p
+fill n p = width p $ \ w -> stimes (n - w) space
 
 
 -- | @'enclose' l r x@ wraps @x@ in @l@ and @r@.
