@@ -27,7 +27,7 @@ instance Printer a => Printer (Rainbow a) where
   liftDoc1 f p = Rainbow $ \ h l -> liftDoc1 f (runRainbow h l p)
   liftDoc2 f p1 p2 = Rainbow $ \ h l -> liftDoc2 f (runRainbow h l p1) (runRainbow h l p2)
 
-  enclosing l r x = Rainbow $ \ h i -> enclose (h i (runRainbow h i l)) (h i (runRainbow h i r)) (runRainbow h (i + 1) x)
+  enclosing l r x = Rainbow $ \ h i -> enclosing (h i (runRainbow h i l)) (h i (runRainbow h i r)) (runRainbow h (i + 1) x)
 
   column    f = Rainbow $ \ h l -> column    (runRainbow h l . f)
   nesting   f = Rainbow $ \ h l -> nesting   (runRainbow h l . f)
