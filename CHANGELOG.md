@@ -1,3 +1,8 @@
+- Fixes the non-compositional behaviour of `Prec` when using `enclosing`. ([#4](https://github.com/robrix/silkscreen/issues/4))
+
+- Fixes the non-compositional behaviour of `Rainbow` when using `enclosing`. ([#5](https://github.com/robrix/silkscreen/issues/5))
+
+
 # 0.0.0.1
 
 - Fixes the link to the `Prettyprinter` module in the `Silkscreen` module docs. ([#2](https://github.com/robrix/silkscreen/issues/2))
