@@ -30,7 +30,7 @@ instance (Bounded level, Printer a) => Printer (Prec level a) where
   liftDoc1 = fmap . liftDoc1
   liftDoc2 = liftA2 . liftDoc2
 
-  enclosing l r x = enclose <$> l <*> r <*> setPrec minBound x
+  enclosing l r x = enclosing <$> l <*> r <*> setPrec minBound x
 
   column    f = Prec $ \ l -> column    (runPrec l . f)
   nesting   f = Prec $ \ l -> nesting   (runPrec l . f)
