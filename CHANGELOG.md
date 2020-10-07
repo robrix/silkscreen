@@ -1,3 +1,5 @@
+# 0.0.0.2
+
 - Fixes the non-compositional behaviour of `Prec` when using `enclosing`. ([#4](https://github.com/robrix/silkscreen/issues/4))
 
 - Fixes the non-compositional behaviour of `Rainbow` when using `enclosing`. ([#5](https://github.com/robrix/silkscreen/issues/5))
