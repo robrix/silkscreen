@@ -59,7 +59,7 @@ setPrec = localPrec . const
 
 -- | Set a constant precedence, parenthesizing in higher-precedence contexts.
 prec :: (PrecedencePrinter p, Ord (Level p)) => Level p -> p -> p
-prec l d = askingPrec $ \ l' -> setPrec l (parensIf (l' > l) d)
+prec l d = askingPrec $ \ l' -> parensIf (l' > l) (setPrec l d)
 
 
 -- | Make an associative infix combinator at the given level.
