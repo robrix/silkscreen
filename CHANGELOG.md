@@ -1,3 +1,6 @@
+- Fixes `prec` setting the precedence level outside the parens instead of inside them, resulting in elided parentheses around e.g. the lhs of left-associative operators.
+
+
 # 0.0.0.2
 
 - Fixes the non-compositional behaviour of `Prec` when using `enclosing`. ([#4](https://github.com/robrix/silkscreen/issues/4))
