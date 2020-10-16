@@ -1,3 +1,5 @@
+# 0.0.0.3
+
 - Fixes `prec` setting the precedence level outside the parens instead of inside them, resulting in elided parentheses around e.g. the lhs of left-associative operators.
 
 
