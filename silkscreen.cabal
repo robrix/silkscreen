@@ -1,7 +1,7 @@
 cabal-version:       2.2
 
 name:                silkscreen
-version:             0.0.0.3
+version:             0.0.0.4
 synopsis:            Prettyprinting transformers.
 description:         Prettyprinting transformers for rainbow parens, precedence, etc.
 homepage:            https://github.com/robrix/silkscreen
@@ -35,6 +35,10 @@ common common
     ghc-options:
       -Wno-missing-safe-haskell-mode
       -Wno-prepositive-qualified-module
+  if (impl(ghc >= 9.2))
+    ghc-options:
+      -Wno-missing-kind-signatures
+
 
 library
   import: common
@@ -45,7 +49,7 @@ library
     Silkscreen.Printer.Prec
     Silkscreen.Printer.Rainbow
   build-depends:
-    , base ^>= 4.14
+    , base >= 4.14 && < 5
     , prettyprinter ^>= 1.7
   hs-source-dirs: src
 
